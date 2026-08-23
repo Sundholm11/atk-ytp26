@@ -2,16 +2,434 @@
 
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATK-YTP — Countdown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0b0b12;
+    --bg2: #15121d;
+    --magenta: #ff2f92;
+    --cyan: #21e6ff;
+    --red: #ff3b3b;
+    --yellow: #ffcf3f;
+    --cream: #ded7c4;
+    --ink: #1a1710;
+    --paper-shadow: rgba(0,0,0,0.5);
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{
+    margin:0; padding:0; height:100%;
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Space Mono', monospace;
+    overflow: hidden;
+  }
+
+  #vhs-bg{
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .stage{
+    position: relative;
+    z-index: 1;
+    width: 100vw; height: 100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap: clamp(20px, 4vh, 48px);
+  }
+
+  .vignette{
+    position:absolute; inset:0; z-index:6; pointer-events:none;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%);
+  }
+
+  /* ---------- cassette label / title ---------- */
+  .label-wrap{
+    position:relative; z-index:10;
+    display:flex; align-items:center; justify-content:center;
+    gap: clamp(10px, 2vw, 28px);
+  }
+
+  .reel{
+    width: clamp(34px,5vw,60px); height: clamp(34px,5vw,60px);
+    border-radius:50%;
+    border: 3px solid var(--cream);
+    opacity:0.35;
+    position:relative;
+    flex: none;
+  }
+  .reel::before{
+    content:""; position:absolute; inset:35%;
+    border-radius:50%; border:2px solid var(--cream);
+  }
+  .reel.spin{ animation: spin 5s linear infinite; }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+
+  .title{
+    font-family:'VT323', monospace;
+    font-size: clamp(3.2rem, 12vw, 8rem);
+    line-height:0.9;
+    letter-spacing: 0.04em;
+    position:relative;
+    white-space: nowrap;
+    color: #ffffff;
+    text-shadow: 0 0 16px rgba(255,255,255,0.25);
+  }
+  /* chromatic-aberration glitch layers */
+  .title span{ position:relative; display:inline-block; }
+  .title .g1, .title .g2{
+    position:absolute; inset:0; left:0; top:0;
+    color: inherit; opacity:0;
+  }
+  .glitching .g1{ color: var(--magenta); opacity:0.8; transform: translate(3px,-1px); mix-blend-mode: screen; }
+  .glitching .g2{ color: var(--cyan); opacity:0.8; transform: translate(-3px,1px); mix-blend-mode: screen; }
+  .glitching .base{ transform: translate(0,0); }
+
+  .tagline{
+    z-index:10;
+    font-size: clamp(0.7rem, 1.6vw, 1rem);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #ffffff;
+    opacity: 0.85;
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    text-align:center;
+    padding: 0 16px;
+  }
+  .tagline .dud{
+    color: var(--cyan);
+    opacity: 0.6;
+  }
+
+  /* ---------- countdown ---------- */
+  .countdown{
+    z-index:10;
+    display:flex;
+    gap: clamp(10px, 2.2vw, 22px);
+  }
+  .unit{
+    display:flex; flex-direction:column; align-items:center;
+    background: linear-gradient(180deg, #100e17, #08070c);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: clamp(8px,1.6vh,16px) clamp(10px,2vw,22px);
+    min-width: clamp(58px, 12vw, 110px);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.03), 0 12px 24px rgba(0,0,0,0.5);
+    position:relative;
+    overflow:hidden;
+  }
+  .unit .num{
+    font-family:'VT323', monospace;
+    font-size: clamp(2.2rem, 7vw, 4.6rem);
+    line-height:1;
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(255,255,255,0.4);
+    font-variant-numeric: tabular-nums;
+  }
+  .unit .lbl{
+    margin-top: 6px;
+    font-size: clamp(0.55rem, 1.2vw, 0.7rem);
+    letter-spacing: 0.2em;
+    color: #ffffff;
+    opacity:0.7;
+  }
+  .unit::before{
+    content:""; position:absolute; left:0; right:0; top:50%; height:1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .footer-date{
+    z-index:10;
+    font-size: clamp(0.65rem, 1.3vw, 0.8rem);
+    letter-spacing: 0.25em;
+    color: #ffffff;
+    opacity:0.55;
+  }
+
+  @media (max-width: 560px){
+    .countdown{ flex-wrap: wrap; justify-content:center; max-width: 320px; }
+    .reel{ display:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .reel.spin, .rec .dot{ animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="vhs-bg"></canvas>
+
+<div class="stage">
+  <div class="vignette"></div>
+
+  <div class="label-wrap">
+    <div class="reel spin"></div>
+    <div class="sticker">
+      <h1 class="title" id="titleGlitch">
+        <span class="base">ATK-YTP</span>
+        <span class="g1" aria-hidden="true">ATK-YTP</span>
+        <span class="g2" aria-hidden="true">ATK-YTP</span>
+      </h1>
+    </div>
+    <div class="reel spin"></div>
+  </div>
+
+  <div class="tagline" id="tagline">Never stop the madness</div>
+
+  <div class="countdown" id="countdown">
+    <div class="unit"><div class="num" id="d">00</div><div class="lbl">päivää</div></div>
+    <div class="unit"><div class="num" id="h">00</div><div class="lbl">tuntia</div></div>
+    <div class="unit"><div class="num" id="m">00</div><div class="lbl">minuuttia</div></div>
+    <div class="unit"><div class="num" id="s">00</div><div class="lbl">sekuntia</div></div>
+  </div>
+
+  <div class="footer-date">14.10.2026</div>
+</div>
+
+<script>
+// ---- Procedural VHS static/scanline background ----
+// Renders low-res noise + tracking bands to an offscreen canvas,
+// then upscales it, so it's cheap even at full screen size.
+(function(){
+  var canvas = document.getElementById('vhs-bg');
+  var ctx = canvas.getContext('2d');
+
+  var scale = 3; // bigger = chunkier grain, cheaper to render
+  var bufW, bufH;
+  var buffer = document.createElement('canvas');
+  var bctx = buffer.getContext('2d');
+
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    bufW = Math.ceil(canvas.width / scale);
+    bufH = Math.ceil(canvas.height / scale);
+    buffer.width = bufW;
+    buffer.height = bufH;
+    ctx.imageSmoothingEnabled = false;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // tracking-distortion bands drift down the screen, mimicking tape mistracking
+  var bands = [
+    { y: Math.random(), speed: 0.0009, height: 0.03, tint: [255,255,255] },
+    { y: Math.random(), speed: 0.0006, height: 0.015, tint: [33,230,255] },  // cyan tinge
+    { y: Math.random(), speed: 0.0011, height: 0.012, tint: [255,47,146] }   // magenta tinge
+  ];
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function drawNoise(){
+    var imgData = bctx.createImageData(bufW, bufH);
+    var data = imgData.data;
+
+    for (var y = 0; y < bufH; y++){
+      for (var x = 0; x < bufW; x++){
+        var i = (y * bufW + x) * 4;
+        var v = Math.random() * 40; // dark grain base, keeps content readable
+        data[i] = v;
+        data[i+1] = v;
+        data[i+2] = v;
+        data[i+3] = 255;
+      }
+    }
+    bctx.putImageData(imgData, 0, 0);
+
+    // scanlines
+    bctx.globalCompositeOperation = 'multiply';
+    bctx.fillStyle = 'rgba(255,255,255,1)';
+    for (var sy = 0; sy < bufH; sy += 2){
+      bctx.fillRect(0, sy, bufW, 1);
+    }
+    bctx.globalCompositeOperation = 'source-over';
+
+    // tracking distortion bands, faint colour tinge on two of them
+    bands.forEach(function(band){
+      var by = band.y * bufH;
+      var bh = band.height * bufH;
+      var a = 0.06 + Math.random() * 0.05;
+      bctx.fillStyle = 'rgba(' + band.tint[0] + ',' + band.tint[1] + ',' + band.tint[2] + ',' + a + ')';
+      bctx.fillRect(0, by, bufW, bh);
+
+      if (!reduceMotion){
+        band.y += band.speed;
+        if (band.y > 1.2) band.y = -0.2;
+      }
+    });
+
+    // occasional full-width glitch flicker
+    if (!reduceMotion && Math.random() < 0.02){
+      bctx.fillStyle = 'rgba(255,255,255,0.08)';
+      bctx.fillRect(0, 0, bufW, bufH);
+    }
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(buffer, 0, 0, bufW, bufH, 0, 0, canvas.width, canvas.height);
+
+    // subtle vertical roll: shift a thin strip vertically once in a while
+    if (!reduceMotion && Math.random() < 0.015){
+      var stripH = 6 + Math.random() * 10;
+      var stripY = Math.random() * canvas.height;
+      var shift = (Math.random() - 0.5) * 16;
+      var strip = ctx.getImageData(0, stripY, canvas.width, stripH);
+      ctx.putImageData(strip, shift, stripY);
+    }
+
+    requestAnimationFrame(drawNoise);
+  }
+
+  drawNoise();
+})();
+</script>
+
+<script>
+  // Target: 14.10.2026, 00:00 Suomen aikaa (EEST, UTC+3 lokakuun alussa)
+  var target = new Date("2026-10-14T00:00:00+03:00").getTime();
+
+  function pad(n){ return String(n).padStart(2,'0'); }
+
+  function tick(){
+    var now = Date.now();
+    var diff = Math.max(0, target - now);
+
+    var days = Math.floor(diff / 86400000);
+    var hours = Math.floor((diff % 86400000) / 3600000);
+    var mins = Math.floor((diff % 3600000) / 60000);
+    var secs = Math.floor((diff % 60000) / 1000);
+
+    document.getElementById('d').textContent = pad(days);
+    document.getElementById('h').textContent = pad(hours);
+    document.getElementById('m').textContent = pad(mins);
+    document.getElementById('s').textContent = pad(secs);
+
+    if(diff <= 0 && window.stopTaglineScramble){
+      window.stopTaglineScramble('Nyt käynnissä');
+    }
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // random tracking glitch on the title + countdown
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function glitchBurst(){
+    if(reduceMotion) return;
+    var title = document.getElementById('titleGlitch');
+    var cd = document.getElementById('countdown');
+    title.classList.add('glitching');
+    cd.style.filter = 'contrast(1.3) saturate(1.4)';
+    cd.style.transform = 'translateX(' + (Math.random()*6-3).toFixed(1) + 'px)';
+    setTimeout(function(){
+      title.classList.remove('glitching');
+      cd.style.filter = '';
+      cd.style.transform = '';
+    }, 120 + Math.random()*100);
+  }
+  function scheduleGlitch(){
+    glitchBurst();
+    setTimeout(scheduleGlitch, 2500 + Math.random()*3500);
+  }
+  scheduleGlitch();
+</script>
+
+<script>
+  // ---- Slot-machine style text scramble for the tagline ----
+  function TextScramble(el){
+    this.el = el;
+    this.chars = '!<>-_\\/[]{}—=+*^?#ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
+    this.frame = 0;
+    this.queue = [];
+    this.update = this.update.bind(this);
+  }
+  TextScramble.prototype.setText = function(newText){
+    var oldText = this.el.textContent;
+    var length = Math.max(oldText.length, newText.length);
+    var self = this;
+    var promise = new Promise(function(resolve){ self.resolve = resolve; });
+    this.queue = [];
+    for (var i = 0; i < length; i++){
+      var from = oldText[i] || '';
+      var to = newText[i] || '';
+      var start = Math.floor(Math.random() * 20);
+      var end = start + Math.floor(Math.random() * 20) + 10;
+      this.queue.push({ from: from, to: to, start: start, end: end });
+    }
+    cancelAnimationFrame(this.frameRequest);
+    this.frame = 0;
+    this.update();
+    return promise;
+  };
+  TextScramble.prototype.update = function(){
+    var output = '';
+    var complete = 0;
+    for (var i = 0; i < this.queue.length; i++){
+      var item = this.queue[i];
+      if (this.frame >= item.end){
+        complete++;
+        output += item.to;
+      } else if (this.frame >= item.start){
+        if (!item.char || Math.random() < 0.28){
+          item.char = this.chars[Math.floor(Math.random() * this.chars.length)];
+        }
+        output += '<span class="dud">' + item.char + '</span>';
+      } else {
+        output += item.from;
+      }
+    }
+    this.el.innerHTML = output;
+    if (complete === this.queue.length){
+      this.resolve();
+    } else {
+      this.frameRequest = requestAnimationFrame(this.update);
+      this.frame++;
+    }
+  };
+
+  var taglinePhrases = [
+    'Never stop the madness',
+    'Älä koskaan pysäytä hulluutta',
+    'Och samma på svenska'
+  ];
+  var taglineEl = document.getElementById('tagline');
+  var taglineFx = new TextScramble(taglineEl);
+  var taglineCounter = 0;
+  var taglineStopped = false;
+
+  function nextTaglinePhrase(){
+    if (taglineStopped) return;
+    var phrase = taglinePhrases[taglineCounter % taglinePhrases.length];
+    taglineCounter++;
+    taglineFx.setText(phrase).then(function(){
+      if (taglineStopped) return;
+      setTimeout(nextTaglinePhrase, 2200);
+    });
+  }
+
+  var reduceMotionTagline = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotionTagline){
+    taglineEl.textContent = taglinePhrases[0];
+  } else {
+    nextTaglinePhrase();
+  }
+
+  window.stopTaglineScramble = function(finalText){
+    taglineStopped = true;
+    if (taglineFx.frameRequest) cancelAnimationFrame(taglineFx.frameRequest);
+    taglineEl.textContent = finalText;
+  };
+</script>
+
+</body>
 </html>
