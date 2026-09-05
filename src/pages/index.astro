@@ -1,5 +1,6 @@
 ---
-import Layout from "@layouts/layout.astro"
+import Layout from "@layouts/Layout.astro"
+import EventScreen from "@components/event-screen.vue"
 ---
 
 <Layout
@@ -7,5 +8,5 @@ import Layout from "@layouts/layout.astro"
   title="ATK-YTP 2026 @ Turku"
   description="ATK-yhteistoimintapäivät 14.-16.10. Turussa. Kaksipäiväinen seminaaritapahtuma kokoaa vuosittain yhteen IT-alan opiskelijoita 7 eri yliopistokaupungista"
 >
-  <h1>Tervetuloa ATK-YTP:lle!</h1>
+  <EventScreen client:load />
 </Layout>

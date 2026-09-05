@@ -1,4 +1,5 @@
 ---
+import { Font } from "astro:assets"
 const { lang, title, description } = Astro.props
 ---
 
@@ -12,6 +13,9 @@ const { lang, title, description } = Astro.props
 
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <Font cssVariable="--font-vcr" />
+    <Font cssVariable="--font-space-mono" />
   </head>
 
   <body>

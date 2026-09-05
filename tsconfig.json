@@ -5,8 +5,13 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/components/*"],
+      "@fonts/*": ["./src/assets/fonts/*"],
+      "@images/*": ["./src/assets/images/*"],
       "@layouts/*": ["./src/layouts/*"],
       "@pages/*": ["./src/pages/*"],
+      "@styles/*": ["./src/styles/*"],
     },
     "jsx": "preserve"
   }
