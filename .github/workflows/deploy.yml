@@ -33,8 +33,7 @@ jobs:
       - name: Build site
         run: npm run build
         env:
-          ASTRO_SITE: https://${{ github.repository_owner }}.github.io
-          ASTRO_BASE: /${{ github.event.repository.name }}
+          ASTRO_SITE: https://atkytp.danielsundholm.com
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
