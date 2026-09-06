@@ -11,8 +11,8 @@ const { lang, title, description } = Astro.props
     <title>{title}</title>
     <meta name="description" content={description} />
 
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} sizes="any" />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
 
     <Font cssVariable="--font-vcr" />
     <Font cssVariable="--font-space-mono" />
