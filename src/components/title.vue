@@ -22,19 +22,21 @@ let taglineTimer = 0
 let animationFrame = 0
 let scrambleFrame = 0
 let taglineStopped = false
-
 let context = null
 let resizeHandler = null
 
+const pad = (value) => String(value).padStart(2, '0')
+
 const updateCountdown = () => {
   const difference = Math.max(0, new Date('2026-10-14T09:00:00+03:00').getTime() - Date.now())
-  const pad = (value) => String(value).padStart(2, '0')
+
   countdown.value = {
     days: pad(Math.floor(difference / 86400000)),
     hours: pad(Math.floor((difference % 86400000) / 3600000)),
     minutes: pad(Math.floor((difference % 3600000) / 60000)),
     seconds: pad(Math.floor((difference % 60000) / 1000)),
   }
+
   if (difference <= 0) {
     taglineStopped = true
     cancelAnimationFrame(scrambleFrame)
@@ -145,8 +147,7 @@ const startVhs = () => {
 }
 
 onMounted(() => {
-  canvas.value = document.getElementById('vhs-bg')
-  context = canvas.value && canvas.value.getContext('2d')
+  context = canvas.value.getContext('2d')
   updateCountdown()
   countdownTimer = window.setInterval(updateCountdown, 1000)
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -216,10 +217,10 @@ onBeforeUnmount(() => {
     <canvas id="vhs-bg" ref="canvas" />
   </div>
 
-  <div class="stage">
     <div class="vignette" />
 
-    <div class="content-panel">
+  <div class="stage">
+    <div class="title-panel">
       <div class="label-wrap">
         <div class="reel spin" />
         <div class="logo-wrap" :class="{ glitching: titleGlitch }" aria-label="ATK-YTP" >
@@ -267,7 +268,8 @@ html, body{
   background: #050508;
   color: var(--cream);
   font-family: var(--font-space-mono), monospace;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* ---------- SMPTE-style colour bar backdrop ---------- */
@@ -336,15 +338,15 @@ html, body{
 }
 
 .vignette{
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 6;
+  z-index: 1;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.85) 100%);
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.55) 75%, rgba(0,0,0,0.85) 100%);
 }
 
 /* dark caption panel so text stays legible over busy colour bars */
-.content-panel{
+.title-panel{
   position: relative;
   z-index: 10;
   display: flex;
@@ -406,7 +408,6 @@ html, body{
   min-width: clamp(58px, 12vw, 110px);
   box-shadow: 0 0 0 1px rgba(255,255,255,0.03), 0 10px 20px rgba(0,0,0,0.5);
   position:relative;
-  overflow:hidden;
 }
 .unit .num{
   font-family: var(--font-vcr);
