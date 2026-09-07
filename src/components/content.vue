@@ -3,23 +3,68 @@ const schedule = [
   {
     date: '14.10.',
     datetime: '2026-10-14',
-    items: [
-      { time: '09:00', title: 'Turkuun. Mennään.'},
-      { time: '', title: 'Ohjelma julkaistaan myöhemmin' },
+    dayparts: [
+      {
+        title: 'Aamupäivä',
+        items: [
+          { time: '09:00', title: 'Turkuun. Mennään.' },
+        ],
+      },
+      {
+        title: 'ehtopäivä',
+        items: [
+          { time: '', title: 'Ohjelma julkaistaan myöhemmin' },
+        ],
+      },
     ],
   },
   {
     date: '15.10.',
     datetime: '2026-10-15',
-    items: [
-      { time: '', title: 'Ohjelma julkaistaan myöhemmin' },
+    dayparts: [
+      {
+        title: 'Aamupäivä',
+        items: [
+          { time: '', title: 'Ohjelma julkaistaan myöhemmin' },
+        ],
+      },
+      {
+        title: 'ehtopäivä',
+        items: [],
+      },
     ],
   },
   {
     date: '16.10.',
     datetime: '2026-10-16',
-    items: [
-      { time: '', title: 'Ohjelma julkaistaan myöhemmin' },
+    dayparts: [
+      {
+        title: 'Aamupäivä',
+        items: [
+          { time: '', title: 'Ohjelma julkaistaan myöhemmin' },
+        ],
+      },
+    ],
+  },
+]
+
+const linkGroups = [
+  {
+    title: 'Ravintolat ja ruoka',
+    links: [
+      { label: 'Paikalliset ravintolat', href: '#' },
+    ],
+  },
+  {
+    title: 'Tapahtuma',
+    links: [
+      { label: 'Yhteydenotto', href: '#' },
+    ],
+  },
+  {
+    title: 'Sosiaalinen media',
+    links: [
+      { label: 'Instagram', href: '#' },
     ],
   },
 ]
@@ -33,7 +78,7 @@ const schedule = [
       <p>
         ATK-yhteistoimintapäivät kokoaa Suomen IT-alan opiskelijat yhteen Turkuun
         14.-16.10.2026. Luvassa on kolme päivää luentoja, ohjelmaa ja
-        hulluttelua meininkiä seitsemän yliopisto kaupungin voimin. Hell yeah.
+        hulluttelua seitsemän yliopisto kaupungin voimin. Hell yeah.
       </p>
     </section>
 
@@ -42,11 +87,15 @@ const schedule = [
       <h2 id="schedule-title">Aikataulu</h2>
       <div class="schedule-list">
         <div v-for="day in schedule" :key="day.datetime" class="schedule-day">
-          <time class="schedule-date" :datetime="day.datetime">{{ day.date }}</time>
-          <div class="schedule-items">
-            <div v-for="(item, index) in day.items" :key="`${day.datetime}-${index}`" class="schedule-item">
-              <time v-if="item.time" class="schedule-time">{{ item.time }}</time>
-              <span>{{ item.title }}</span>
+          <div v-for="(daypart, daypartIndex) in day.dayparts" :key="daypart.title" class="schedule-daypart">
+            <time v-if="daypartIndex === 0" class="schedule-date" :datetime="day.datetime">{{ day.date }}</time>
+            <span v-else class="schedule-date-empty" aria-hidden="true"></span>
+            <h3>{{ daypart.title }}</h3>
+            <div class="schedule-items">
+              <div v-for="(item, index) in daypart.items" :key="`${day.datetime}-${daypart.title}-${index}`" class="schedule-item" :class="{ 'schedule-item--untimed': !item.time }">
+                <time v-if="item.time" class="schedule-time">{{ item.time }}</time>
+                <span>{{ item.title }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -57,14 +106,26 @@ const schedule = [
       <p class="section-index">03 // Koordinaatit</p>
       <h2 id="location-title">Paikkatieto</h2>
       <p>
-        Tapahtuma järjestetään Turussa. Tarkempi tapahtumapaikka,
-        saapumisohjeet ja muu käytännön tieto päivitetään tähän ennen
-        tapahtumaa.
+        Tarkempi tapahtumapaikka, saapumisohjeet ja muu käytännön
+        tieto päivitetään tähän ennen tapahtumaa.
       </p>
     </section>
 
+    <section class="content-panel" aria-labelledby="links-title">
+      <p class="section-index">04 // Yhteydet</p>
+      <h2 id="links-title">Linkit</h2>
+      <nav class="link-list" aria-label="Tapahtuman tärkeät linkit">
+        <div v-for="group in linkGroups" :key="group.title" class="link-group">
+          <h3>{{ group.title }}</h3>
+          <a v-for="link in group.links" :key="link.label" :href="link.href">
+            {{ link.label }} <span>↗</span>
+          </a>
+        </div>
+      </nav>
+    </section>
+
     <section class="content-panel map-panel" aria-labelledby="map-title">
-      <p class="section-index">04 // Visuaalinen yhteys</p>
+      <p class="section-index">05 // Visuaalinen yhteys</p>
       <h2 id="map-title">Kartta</h2>
       <div class="map-placeholder" aria-label="Kartta lisätään myöhemmin">
         <span>MAP SIGNAL PENDING</span>
@@ -157,34 +218,64 @@ h2::after {
 
 .schedule-day {
   display: grid;
-  grid-template-columns: 88px 1fr;
-  align-items: center;
-  gap: 16px;
+  gap: 8px;
   padding: 12px 0;
   border-bottom: 1px solid rgba(222, 215, 196, 0.2);
 }
 
 .schedule-date {
-  align-self: start;
   color: var(--magenta);
   font-family: var(--font-vcr), monospace;
 }
 
 .schedule-items {
+  grid-column: 1 / -1;
   display: grid;
   gap: 12px;
   min-width: 0;
 }
 
+.schedule-daypart {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: 24px;
+  row-gap: 8px;
+  padding: 8px 0;
+}
+
+.schedule-daypart h3,
+.link-group h3 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-vcr), monospace;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-shadow: 2px 0 var(--magenta), -2px 0 var(--cyan);
+  text-transform: uppercase;
+}
+
+.schedule-daypart h3 {
+  grid-column: 2;
+}
+
 .schedule-item {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 48px minmax(0, 1fr);
   align-items: center;
-  gap: 16px;
+  gap: 24px;
   max-width: 100%;
 }
 
+.schedule-item--untimed span {
+  grid-column: 2;
+}
+
 .schedule-time {
+  min-width: 48px;
   color: var(--cyan);
   font-family: var(--font-vcr), monospace;
 }
@@ -192,6 +283,39 @@ h2::after {
 .schedule-item span {
   max-width: 60ch;
   color: rgba(255, 255, 255, 0.72);
+}
+
+.link-list {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 20px;
+}
+
+.link-group {
+  display: grid;
+  gap: 4px;
+}
+
+.link-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(222, 215, 196, 0.2);
+  color: rgba(255, 255, 255, 0.82);
+  font-family: var(--font-space-mono), monospace;
+  text-decoration: none;
+}
+
+.link-list a:hover,
+.link-list a:focus-visible {
+  color: var(--cyan);
+}
+
+.link-list span {
+  color: var(--magenta);
+  font-family: var(--font-vcr), monospace;
 }
 
 .map-placeholder {
@@ -215,12 +339,15 @@ h2::after {
   }
 
   .schedule-day {
-    grid-template-columns: 64px 1fr;
-    gap: 10px;
+    gap: 6px;
+  }
+
+  .schedule-daypart {
+    column-gap: 12px;
   }
 
   .schedule-item {
-    gap: 10px;
+    gap: 12px;
   }
 }
 </style>

@@ -15,7 +15,15 @@ const units = [
   { key: 'minutes', label: 'minuuttia' },
   { key: 'seconds', label: 'sekuntia' },
 ]
-const phrases = ['Never stop the madness', 'Älä koskaan pysäytä hulluutta', 'Och samma på svenska']
+const phrases = [
+  'Never stop the madness',
+  'Älä koskaan pysäytä hulluutta',
+  'Och samma på svenska',
+  'Lahnan pää ku lamppan pää, hauen pää ku halon pää, kuhan pää ku Juhan pää',
+  'Soutajalta ei lopu vesi eikä työntekiältä työ',
+  'Isäntä on vieran väärtti ja välist parempiki'
+]
+const longestPhrase = phrases.reduce((longest, phrase) => phrase.length > longest.length ? phrase : longest, '')
 let countdownTimer = 0
 let glitchTimer = 0
 let taglineTimer = 0
@@ -152,13 +160,12 @@ onMounted(() => {
   countdownTimer = window.setInterval(updateCountdown, 1000)
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   if (!reduceMotion) {
-    let phraseIndex = 0
     const nextPhrase = () => {
-        if (taglineStopped) return
       if (taglineStopped) return
-      scramble(phrases[phraseIndex % phrases.length])
-      phraseIndex += 1
-      taglineTimer = window.setTimeout(nextPhrase, 2200)
+      const availablePhrases = phrases.filter((phrase) => phrase !== tagline.value)
+      const next = availablePhrases[Math.floor(Math.random() * availablePhrases.length)]
+      scramble(next)
+      taglineTimer = window.setTimeout(nextPhrase, 5000)
     }
     nextPhrase()
   }
@@ -231,7 +238,10 @@ onBeforeUnmount(() => {
         <div class="reel spin" />
       </div>
 
-      <div class="tagline" aria-live="polite">{{ tagline }}</div>
+      <div class="tagline" aria-live="polite">
+        <span class="tagline-sizer" aria-hidden="true">{{ longestPhrase }}</span>
+        <span class="tagline-current" v-html="taglineMarkup" />
+      </div>
 
       <div class="countdown">
         <div v-for="unit in units" :key="unit.key" class="unit">
@@ -277,6 +287,7 @@ html, body{
   position: fixed;
   inset: 0;
   z-index: 0;
+  pointer-events: none;
   filter: url(#crtWave);
 }
 
@@ -354,9 +365,23 @@ html, body{
   align-items: center;
   gap: clamp(20px, 4vh, 48px);
   padding: clamp(24px,5vh,56px) clamp(20px,6vw,72px);
+  border: 1px solid rgba(222, 215, 196, 0.28);
   background: rgba(4, 4, 8, 0.75);
   backdrop-filter: blur(2px);
-  max-width: 680px;
+  box-shadow: 8px 8px 0 rgba(255, 47, 146, 0.14), -4px -4px 0 rgba(33, 230, 255, 0.1);
+  width: min(calc(100vw - 32px), 900px);
+  max-width: 900px;
+  overflow: hidden;
+}
+
+.title-panel::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  content: '';
+  opacity: 0.1;
+  background: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(255, 255, 255, 0.16) 4px);
 }
 
 /* ---------- cassette label / title ---------- */
@@ -380,7 +405,10 @@ html, body{
 /*.glitching .logo-g2{ background: var(--cyan); opacity:0.8; transform: translate(-3px,1px); mix-blend-mode: screen; } */
 
 .tagline{
+  position: relative;
+  width: 100%;
   font-size: clamp(0.7rem, 1.6vw, 1rem);
+  line-height: 1.5;
   letter-spacing: 0.35em;
   text-transform: uppercase;
   color: #ffffff;
@@ -388,6 +416,17 @@ html, body{
   text-shadow: 0 0 10px rgba(255,255,255,0.3);
   text-align:center;
   padding: 0 16px;
+}
+.tagline-sizer{
+  display: block;
+  visibility: hidden;
+}
+.tagline-current{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .tagline .dud{
   color: var(--cyan);
@@ -397,15 +436,17 @@ html, body{
 /* ---------- countdown ---------- */
 .countdown{
   display:flex;
-  gap: clamp(50px, 2.2vw, 22px);
+  width: 100%;
+  gap: clamp(4px, 2.2vw, 22px);
 }
 .unit{
   display:flex; flex-direction:column; align-items:center;
+  flex: 1 1 0;
   background: linear-gradient(180deg, #100e17, #08070c);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 8px;
   /* padding: clamp(8px,1.6vh,16px) clamp(10px,2vw,22px); */
-  min-width: clamp(58px, 12vw, 110px);
+  min-width: 0;
   box-shadow: 0 0 0 1px rgba(255,255,255,0.03), 0 10px 20px rgba(0,0,0,0.5);
   position:relative;
 }
@@ -419,9 +460,9 @@ html, body{
 }
 .unit .lbl{
   font-family: var(--font-vcr);
-  margin-top: 6px;
-  font-size: clamp(0.55rem, 1.2vw, 0.7rem);
-  letter-spacing: 0.2em;
+  margin-bottom: 6px;
+  font-size: clamp(0.45rem, 1.2vw, 0.7rem);
+  letter-spacing: clamp(0.08em, 0.2vw, 0.2em);
   color: #ffffff;
   opacity:0.7;
   align-self:stretch;
@@ -437,7 +478,7 @@ html, body{
 }
 
 @media (max-width: 560px) {
-  .countdown{ flex-wrap: wrap; justify-content:center; max-width: 320px; }
+  .countdown{ max-width: 100%; }
   .reel{ display:none; }
   .content-panel{ padding: clamp(18px,5vh,32px) clamp(14px,5vw,28px); }
 }
