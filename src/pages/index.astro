@@ -1,5 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro"
+import Background from "@components/background.vue"
 import Title from "@components/title.vue"
 import Content from "@components/content.vue"
 ---
@@ -9,6 +10,7 @@ import Content from "@components/content.vue"
   title="ATK-YTP 2026 @ Turku"
   description="ATK-yhteistoimintapäivät 14.-16.10. Turussa. Kaksipäiväinen seminaaritapahtuma kokoaa vuosittain yhteen IT-alan opiskelijoita 7 eri yliopistokaupungista"
 >
+  <Background client:load />
   <Title client:load />
   <Content />
 </Layout>

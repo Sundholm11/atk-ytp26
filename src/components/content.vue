@@ -50,21 +50,26 @@ const schedule = [
 
 const linkGroups = [
   {
-    title: 'Ravintolat ja ruoka',
+    title: 'Opiskelija ravintolat ja Lounaslistat',
     links: [
-      { label: 'Paikalliset ravintolat', href: '#' },
+      { label: 'Unica', href: 'https://www.unica.fi/' },
+      { label: 'Kårkaféerna', href: 'https://www.karkafeerna.fi/fi/lounas/' },
+      { label: 'Juvenes Block', href: 'https://juvenes.fi/block/' },
     ],
   },
+  /*
   {
     title: 'Tapahtuma',
     links: [
       { label: 'Yhteydenotto', href: '#' },
     ],
   },
+  */
   {
-    title: 'Sosiaalinen media',
+    title: 'Muut',
     links: [
-      { label: 'Instagram', href: '#' },
+      { label: 'Asteriski IG', href: 'https://www.instagram.com/asteriski_ry/' },
+      { label: 'Oispa Kievin kanaa', href: 'https://oispa.kievinkanaa.com/' },
     ],
   },
 ]
@@ -76,9 +81,9 @@ const linkGroups = [
       <p class="section-index">01 // Lähetys alkaa</p>
       <h2 id="info-title">Info</h2>
       <p>
-        ATK-yhteistoimintapäivät kokoaa Suomen IT-alan opiskelijat yhteen Turkuun
-        14.-16.10.2026. Luvassa on kolme päivää luentoja, ohjelmaa ja
-        hulluttelua seitsemän yliopisto kaupungin voimin. Hell yeah.
+        ATK-yhteistoimintapäivät kokoaa Suomen IT-alan opiskelijat yhteen Suomen OG
+        pääkaupunkiin Turkuun 14.-16.10.2026. Luvassa on kolme päivää luentoja, ohjelmaa
+        ja hulluttelua seitsemän yliopisto kaupungin voimin. Hell yeah.
       </p>
     </section>
 
@@ -117,8 +122,8 @@ const linkGroups = [
       <nav class="link-list" aria-label="Tapahtuman tärkeät linkit">
         <div v-for="group in linkGroups" :key="group.title" class="link-group">
           <h3>{{ group.title }}</h3>
-          <a v-for="link in group.links" :key="link.label" :href="link.href">
-            {{ link.label }} <span>↗</span>
+          <a v-for="link in group.links" :key="link.label" :href="link.href" target="_blank" rel="noopener noreferrer">
+            {{ link.label }} <span>→</span>
           </a>
         </div>
       </nav>
@@ -129,6 +134,10 @@ const linkGroups = [
       <h2 id="map-title">Kartta</h2>
       <div class="map-placeholder" aria-label="Kartta lisätään myöhemmin">
         <span>MAP SIGNAL PENDING</span>
+        <!--
+        <iframe width="425" height="350" src="https://www.openstreetmap.org/export/embed?bbox=21.621093750000004%2C60.20809856445641%2C23.20724487304688%2C60.6317855349207&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/#map=11/60.4206/22.4142">Näytä isommalla kartalla</a></small>
+        {/*<iframe src="https://www.google.com/maps/d/embed?mid=1bTEXTaFykf9Xgu3riXarONoMUR8V-SU&ehbc=2E312F&noprof=1" width="100%" height="480" style="margin-top: -60px"></iframe>}
+        -->
       </div>
     </section>
   </main>
@@ -140,18 +149,22 @@ const linkGroups = [
   z-index: 2;
   width: min(100% - 32px, 900px);
   margin: 0 auto;
-  padding: 72px 0 120px;
+  padding: 48px 0 96px;
   display: grid;
-  gap: 24px;
+  gap: 16px;
 }
 
 .content-panel {
   position: relative;
   padding: clamp(24px, 5vw, 48px);
-  border: 1px solid rgba(222, 215, 196, 0.28);
-  background: rgba(4, 4, 8, 0.88);
-  box-shadow: 8px 8px 0 rgba(255, 47, 146, 0.14), -4px -4px 0 rgba(33, 230, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--darkblue);
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.65);
   color: var(--cream);
+}
+
+.content-panel:nth-child(even) {
+  background: var(--blueblack);
 }
 
 .content-panel::after {
@@ -164,37 +177,55 @@ const linkGroups = [
 }
 
 .section-index {
-  position: relative;
-  z-index: 1;
-  margin: 0 0 12px;
-  color: var(--cyan);
-  font-family: var(--font-vcr), monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  display: none;
 }
 
 h2 {
   position: relative;
   z-index: 1;
-  display: inline-block;
+  display: block;
   margin: 0 0 24px;
-  color: #fff;
+  color: var(--cold-white);
   font-family: var(--font-vcr), monospace;
-  font-size: clamp(2rem, 7vw, 4.5rem);
+  font-size: clamp(1.5rem, 5vw, 3rem);
   font-weight: 400;
-  line-height: 0.9;
-  letter-spacing: 0.04em;
-  text-shadow: 3px 0 var(--magenta), -3px 0 var(--cyan);
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  text-transform: uppercase;
+  animation: section-title-glitch 4.5s steps(1, end) infinite;
+}
+
+h2::before,
+h2::after {
+  content: '*****';
+  color: var(--cold-white);
+  letter-spacing: 0.08em;
+}
+
+h2::before {
+  margin-right: 14px;
 }
 
 h2::after {
-  display: block;
-  width: 100%;
-  height: 2px;
-  margin-top: 12px;
-  background: linear-gradient(90deg, var(--magenta), var(--cyan));
-  content: '';
+  margin-left: 14px;
+}
+
+@keyframes section-title-glitch {
+  0%, 88%, 100% {
+    text-shadow: none;
+    transform: none;
+  }
+
+  89% {
+    text-shadow: 3px 0 var(--cyan), -3px 0 var(--magenta);
+    transform: translateX(-2px);
+  }
+
+  90% {
+    text-shadow: -2px 0 var(--cyan), 2px 0 var(--magenta);
+    transform: translateX(2px);
+  }
 }
 
 .content-panel > p:not(.section-index) {
@@ -202,10 +233,10 @@ h2::after {
   z-index: 1;
   max-width: 60ch;
   margin: 0;
-  color: rgba(255, 255, 255, 0.82);
-  font-family: var(--font-space-mono), monospace;
-  font-size: clamp(0.85rem, 1.6vw, 1rem);
-  line-height: 1.8;
+  color: var(--cold-white);
+  font-family: var(--font-vcr), monospace;
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  line-height: 1.6;
 }
 
 .schedule-list {
@@ -213,35 +244,43 @@ h2::after {
   z-index: 1;
   display: grid;
   gap: 12px;
-  font-family: var(--font-space-mono), monospace;
+  font-family: var(--font-vcr), monospace;
 }
 
 .schedule-day {
   display: grid;
   gap: 8px;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(222, 215, 196, 0.2);
+  padding: 0 0 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.schedule-day:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 
 .schedule-date {
-  color: var(--magenta);
+  width: fit-content;
+  padding: 2px 4px;
+  color: var(--darkblue);
+  background: var(--cold-white);
   font-family: var(--font-vcr), monospace;
 }
 
 .schedule-items {
   grid-column: 1 / -1;
   display: grid;
-  gap: 12px;
+  gap: 8px;
   min-width: 0;
 }
 
 .schedule-daypart {
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr);
+  grid-template-columns: 64px minmax(0, 1fr);
   align-items: baseline;
   column-gap: 24px;
-  row-gap: 8px;
-  padding: 8px 0;
+  row-gap: 6px;
+  padding: 2px 0;
 }
 
 .schedule-daypart h3,
@@ -254,18 +293,18 @@ h2::after {
   font-size: 1.15rem;
   font-weight: 400;
   letter-spacing: 0.04em;
-  text-shadow: 2px 0 var(--magenta), -2px 0 var(--cyan);
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
 .schedule-daypart h3 {
-  grid-column: 2;
+  display: none;
 }
 
 .schedule-item {
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr);
-  align-items: center;
+  grid-template-columns: 64px minmax(0, 1fr);
+  align-items: baseline;
   gap: 24px;
   max-width: 100%;
 }
@@ -275,14 +314,15 @@ h2::after {
 }
 
 .schedule-time {
-  min-width: 48px;
-  color: var(--cyan);
+  min-width: 64px;
+  color: var(--cold-white);
   font-family: var(--font-vcr), monospace;
 }
 
 .schedule-item span {
   max-width: 60ch;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--cold-white);
+  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
 }
 
 .link-list {
@@ -304,18 +344,14 @@ h2::after {
   padding: 12px 0;
   border-bottom: 1px solid rgba(222, 215, 196, 0.2);
   color: rgba(255, 255, 255, 0.82);
-  font-family: var(--font-space-mono), monospace;
+  font-family: var(--font-vcr), monospace;
+  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
   text-decoration: none;
 }
 
 .link-list a:hover,
 .link-list a:focus-visible {
   color: var(--cyan);
-}
-
-.link-list span {
-  color: var(--magenta);
-  font-family: var(--font-vcr), monospace;
 }
 
 .map-placeholder {
@@ -335,19 +371,28 @@ h2::after {
 @media (max-width: 560px) {
   .event-content {
     width: min(100% - 20px, 900px);
-    padding-top: 48px;
+    padding-top: 32px;
   }
 
-  .schedule-day {
-    gap: 6px;
+  h2::before,
+  h2::after {
+    margin: 0 6px;
   }
 
-  .schedule-daypart {
+  .schedule-daypart,
+  .schedule-item {
+    grid-template-columns: 56px minmax(0, 1fr);
     column-gap: 12px;
   }
 
-  .schedule-item {
-    gap: 12px;
+  .schedule-time {
+    min-width: 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  h2 {
+    animation: none;
   }
 }
 </style>
