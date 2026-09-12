@@ -3,9 +3,11 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import ytpLogoColdWhite from '@images/ytplogo-pixel-coldwhite.svg?url'
 //import ytpLogoDarkGrey from '@images/ytplogo-darkgrey.svg?url'
 
+const titleGlitch = ref(false)
 const tagline = ref('Never stop the madness')
 const taglineMarkup = ref('Never stop the madness')
-const titleGlitch = ref(false)
+const taglineReadTime = 3000
+const taglineScrambleDuration = 900
 const countdownStyle = ref({})
 const countdown = ref({ days: '00', hours: '00', minutes: '00', seconds: '00' })
 const units = [
@@ -52,7 +54,6 @@ let glitchTimer = 0
 let taglineTimer = 0
 let scrambleFrame = 0
 let resolveScramble = null
-let taglineStopped = false
 
 const pad = (value) => String(value).padStart(2, '0')
 
@@ -66,20 +67,12 @@ const updateCountdown = () => {
     seconds: pad(Math.floor((difference % 60000) / 1000)),
   }
 
-  if (difference <= 0) {
-    taglineStopped = true
-    cancelAnimationFrame(scrambleFrame)
-    resolveScramble?.()
-    tagline.value = 'Nyt käynnissä'
-    taglineMarkup.value = 'Nyt käynnissä'
-  }
 }
 
 const scramble = (next) => {
   const previous = tagline.value
   const chars = '!<>-_\\/[]{}—=+*^?#ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ'
   const length = Math.max(previous.length, next.length)
-  const duration = 900
   const queue = Array.from({ length }, (_, index) => {
     const start = Math.random() * 0.25
     return { from: previous[index] || '', to: next[index] || '', start, end: Math.min(1, start + 0.35 + Math.random() * 0.4) }
@@ -89,7 +82,7 @@ const scramble = (next) => {
   return new Promise((resolve) => {
     resolveScramble = resolve
     const animate = (timestamp) => {
-      const progress = Math.min(1, (timestamp - startTime) / duration)
+      const progress = Math.min(1, (timestamp - startTime) / taglineScrambleDuration)
       let output = ''
       let complete = 0
       queue.forEach((item) => {
@@ -125,11 +118,10 @@ onMounted(() => {
   const isConstrainedDevice = navigator.maxTouchPoints > 0 || navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4
   if (!reduceMotion) {
     const nextPhrase = async () => {
-      if (taglineStopped) return
       const availablePhrases = phrases.filter((phrase) => phrase !== tagline.value)
       const next = availablePhrases[Math.floor(Math.random() * availablePhrases.length)]
       await scramble(next)
-      if (!taglineStopped) taglineTimer = window.setTimeout(nextPhrase, 2200)
+      taglineTimer = window.setTimeout(nextPhrase, taglineReadTime)
     }
     nextPhrase()
   }
