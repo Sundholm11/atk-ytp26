@@ -21,7 +21,30 @@ const phrases = [
   'Lahnan pää ku lamppan pää, hauen pää ku halon pää, kuhan pää ku Juhan pää',
   'Zyn zyn zyn zyn zyn zyn zyn zyn zyn zyn',
   'Gogoustauko',
-  'Funikulaari status: toiminnassa',
+  'Avataan gogous ajassa',
+  'Funikulaari toiminnassa',
+  'Funikulaari epäkunnossa',
+  'Täl puol vai tois puol jokke',
+  'Iha ok juttu mut ootko kattonu YTP sarjasta jakson miljoonan mäen Turku',
+  'Miten voi suorittaa neljännes triathlonin jos siinä on vaan kolme lajia',
+  'Hyvää pönkeliwappua',
+  'Hunajata, hunajata, hunajata sulle',
+  'Ja mä maksan kovaa hintaa',
+  'Niin se menee ymmärrän, pääpöytä ymmärrä mua ei',
+  'Muuttaako se lopulta niitä päiviä, jotka sun kanssa vietin mä kerran Turussa',
+  'Agoralle siis polkuni käy ja reppu kilisee - kaljaa',
+  'Mä Lynin vessaan käperryn ”Poke, salli yöksi jään” mut kun aamu on, mä majostani herään',
+  'Kunnes kerran kuihtuu ruusu rinnassain',
+  'Ajamassa skuuttei aurajokeen',
+  'Onko setti?',
+  'PGP pilligate',
+  'AATUillaanhan taas yhdessä <3',
+  'Liikuntavastaavan vika',
+  'Piltit sekoo',
+  'Paskapostatkaa @asteriski jodelissa',
+  'Ratikka tulee - tule sinäkin!',
+  'Monelt Petri alottaa',
+  'Varför Paris vi har ju Åbo'
 ]
 const longestPhrase = phrases.reduce((longest, phrase) => phrase.length > longest.length ? phrase : longest, '')
 let countdownTimer = 0
@@ -151,7 +174,10 @@ onBeforeUnmount(() => {
         </div>
       </div>
 
-      <div class="date-location">TURKU <br /> 14.10.2026 - 16.10.2026</div>
+      <div class="date-location">
+        <span>TURKU</span>
+        <span class="date-location-dates">14.10.2026 - 16.10.2026</span>
+      </div>
     </div>
   </div>
 </template>
@@ -176,6 +202,7 @@ onBeforeUnmount(() => {
   display: flex;
   width: min(calc(100vw - 32px), 900px);
   max-width: 900px;
+  min-width: 0;
   flex-direction: column;
   align-items: center;
   gap: clamp(20px, 4vh, 48px);
@@ -242,6 +269,7 @@ onBeforeUnmount(() => {
 .tagline {
   position: relative;
   width: 100%;
+  overflow: hidden;
   padding: 0 16px;
   color: #fff;
   font-size: clamp(0.7rem, 1.6vw, 1rem);
@@ -261,9 +289,8 @@ onBeforeUnmount(() => {
 .tagline-current {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
 .tagline :deep(.dud) {
@@ -320,6 +347,11 @@ onBeforeUnmount(() => {
   text-align: center;
   /* opacity: 0.55; */
   opacity: 0.8;
+}
+
+.date-location-dates {
+  display: block;
+  padding-top: 0.5em;
 }
 
 @keyframes glitch-1 {
