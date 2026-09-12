@@ -1,28 +1,37 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 
+const fps = 48
+const slowFps= 24
 const canvas = ref(null)
 const bgWrap = ref(null)
 const turb = ref(null)
 let animationFrame = 0
 let resizeHandler = null
 
-const startVhs = () => {
+const startVhs = (isSlowDevice) => {
   if (!canvas.value) return
+
   const context = canvas.value.getContext('2d')
   if (!context) return
+
   const buffer = document.createElement('canvas')
   const bufferContext = buffer.getContext('2d')
   if (!bufferContext) return
+
   const scale = 3
+  const frameInterval = isSlowDevice ? 1000 / slowFps : 1000 / fps
   let width = 0
   let height = 0
+  let noiseFrame = 0
+  const noiseFrames = []
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const bands = [
     { y: Math.random(), speed: 0.0009, height: 0.03, tint: [255, 255, 255] },
     { y: Math.random(), speed: 0.0006, height: 0.015, tint: [33, 230, 255] },
     { y: Math.random(), speed: 0.0011, height: 0.012, tint: [255, 47, 146] },
   ]
+
   const resize = () => {
     if (!canvas.value) return
     canvas.value.width = innerWidth
@@ -32,21 +41,32 @@ const startVhs = () => {
     buffer.width = width
     buffer.height = height
     context.imageSmoothingEnabled = false
+    noiseFrames.length = 0
+    for (let frame = 0; frame < 48; frame += 1) {
+      const image = bufferContext.createImageData(width, height)
+      for (let index = 0; index < image.data.length; index += 4) {
+        const value = 70 + Math.random() * 40
+        image.data[index] = value
+        image.data[index + 1] = value
+        image.data[index + 2] = value
+        image.data[index + 3] = 255
+      }
+      noiseFrames.push(image)
+    }
   }
+
   resizeHandler = resize
   window.addEventListener('resize', resize)
   resize()
+
+  const scheduleNextFrame = () => {
+    animationFrame = window.setTimeout(() => draw(performance.now()), frameInterval)
+  }
+
   const draw = () => {
     if (!canvas.value) return
-    const image = bufferContext.createImageData(width, height)
-    for (let index = 0; index < image.data.length; index += 4) {
-      const value = 40 + Math.random() * 60
-      image.data[index] = value
-      image.data[index + 1] = value
-      image.data[index + 2] = value
-      image.data[index + 3] = 255
-    }
-    bufferContext.putImageData(image, 0, 0)
+    bufferContext.putImageData(noiseFrames[noiseFrame], 0, 0)
+    noiseFrame = (noiseFrame + 1) % noiseFrames.length
     bufferContext.globalCompositeOperation = 'multiply'
     bufferContext.fillStyle = 'rgba(255,255,255,1)'
     for (let y = 0; y < height; y += 2) bufferContext.fillRect(0, y, width, 1)
@@ -56,20 +76,9 @@ const startVhs = () => {
       bufferContext.fillRect(0, band.y * height, width, band.height * height)
       if (!reduceMotion) band.y = band.y > 1.2 ? -0.2 : band.y + band.speed
     })
-    if (!reduceMotion && Math.random() < 0.02) {
-      bufferContext.fillStyle = 'rgba(255,255,255,0.08)'
-      bufferContext.fillRect(0, 0, width, height)
-    }
     context.clearRect(0, 0, canvas.value.width, canvas.value.height)
     context.drawImage(buffer, 0, 0, width, height, 0, 0, canvas.value.width, canvas.value.height)
-    if (!reduceMotion && Math.random() < 0.015) {
-      const stripHeight = 6 + Math.random() * 10
-      const stripY = Math.random() * canvas.value.height
-      const shift = (Math.random() - 0.5) * 16
-      const strip = context.getImageData(0, stripY, canvas.value.width, stripHeight)
-      context.putImageData(strip, shift, stripY)
-    }
-    animationFrame = requestAnimationFrame(draw)
+    scheduleNextFrame()
   }
   draw()
 }
@@ -79,12 +88,24 @@ onMounted(() => {
   if (reduceMotion) {
     if (bgWrap.value) bgWrap.value.style.filter = 'none'
     if (turb.value) turb.value.querySelector('animate')?.setAttribute('repeatCount', '0')
+    return
   }
-  startVhs()
+
+  const isSlowDevice =
+    navigator.maxTouchPoints > 0 ||
+    navigator.hardwareConcurrency <= 4 ||
+    navigator.deviceMemory <= 4
+  if (isSlowDevice) {
+    if (bgWrap.value) bgWrap.value.style.filter = 'none'
+    if (canvas.value) canvas.value.style.filter = 'none'
+    if (turb.value) turb.value.querySelector('animate')?.setAttribute('repeatCount', '0')
+  }
+
+  startVhs(isSlowDevice)
 })
 
 onBeforeUnmount(() => {
-  cancelAnimationFrame(animationFrame)
+  window.clearTimeout(animationFrame)
   if (resizeHandler) window.removeEventListener('resize', resizeHandler)
 })
 </script>

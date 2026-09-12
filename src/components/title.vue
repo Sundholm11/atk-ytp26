@@ -51,6 +51,7 @@ let countdownTimer = 0
 let glitchTimer = 0
 let taglineTimer = 0
 let scrambleFrame = 0
+let resolveScramble = null
 let taglineStopped = false
 
 const pad = (value) => String(value).padStart(2, '0')
@@ -68,6 +69,7 @@ const updateCountdown = () => {
   if (difference <= 0) {
     taglineStopped = true
     cancelAnimationFrame(scrambleFrame)
+    resolveScramble?.()
     tagline.value = 'Nyt käynnissä'
     taglineMarkup.value = 'Nyt käynnissä'
   }
@@ -77,54 +79,62 @@ const scramble = (next) => {
   const previous = tagline.value
   const chars = '!<>-_\\/[]{}—=+*^?#ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ'
   const length = Math.max(previous.length, next.length)
-  let frame = 0
+  const duration = 900
   const queue = Array.from({ length }, (_, index) => {
-    const start = Math.floor(Math.random() * 20)
-    return { from: previous[index] || '', to: next[index] || '', start, end: start + Math.floor(Math.random() * 20) + 10 }
+    const start = Math.random() * 0.25
+    return { from: previous[index] || '', to: next[index] || '', start, end: Math.min(1, start + 0.35 + Math.random() * 0.4) }
   })
   cancelAnimationFrame(scrambleFrame)
-  const animate = () => {
-    let output = ''
-    let complete = 0
-    queue.forEach((item) => {
-      if (frame >= item.end) {
-        complete += 1
-        output += item.to
-      } else if (frame >= item.start) {
-        item.char = item.char && Math.random() >= 0.28 ? item.char : chars[Math.floor(Math.random() * chars.length)]
-        output += `<span class="dud">${item.char}</span>`
-      } else output += item.from
-    })
-    taglineMarkup.value = output
-    tagline.value = output.replace(/<[^>]+>/g, '')
-    if (complete === queue.length) {
-      taglineMarkup.value = next
-      tagline.value = next
+  resolveScramble?.()
+  return new Promise((resolve) => {
+    resolveScramble = resolve
+    const animate = (timestamp) => {
+      const progress = Math.min(1, (timestamp - startTime) / duration)
+      let output = ''
+      let complete = 0
+      queue.forEach((item) => {
+        if (progress >= item.end) {
+          complete += 1
+          output += item.to
+        } else if (progress >= item.start) {
+          item.char = item.char && Math.random() >= 0.28 ? item.char : chars[Math.floor(Math.random() * chars.length)]
+          output += `<span class="dud">${item.char}</span>`
+        } else output += item.from
+      })
+      taglineMarkup.value = output
+      tagline.value = output.replace(/<[^>]+>/g, '')
+      if (complete === queue.length || progress >= 1) {
+        taglineMarkup.value = next
+        tagline.value = next
+        resolveScramble = null
+        resolve()
+      }
+      else {
+        scrambleFrame = requestAnimationFrame(animate)
+      }
     }
-    else {
-      scrambleFrame = requestAnimationFrame(animate)
-      frame += 1
-    }
-  }
-  animate()
+    const startTime = performance.now()
+    scrambleFrame = requestAnimationFrame(animate)
+  })
 }
 
 onMounted(() => {
   updateCountdown()
   countdownTimer = window.setInterval(updateCountdown, 1000)
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const isConstrainedDevice = navigator.maxTouchPoints > 0 || navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4
   if (!reduceMotion) {
-    const nextPhrase = () => {
+    const nextPhrase = async () => {
       if (taglineStopped) return
       const availablePhrases = phrases.filter((phrase) => phrase !== tagline.value)
       const next = availablePhrases[Math.floor(Math.random() * availablePhrases.length)]
-      scramble(next)
-      taglineTimer = window.setTimeout(nextPhrase, 5000)
+      await scramble(next)
+      if (!taglineStopped) taglineTimer = window.setTimeout(nextPhrase, 2200)
     }
     nextPhrase()
   }
   const glitch = () => {
-    if (!reduceMotion) {
+    if (!reduceMotion && !isConstrainedDevice) {
       titleGlitch.value = true
       countdownStyle.value = {
         filter: 'contrast(1.3) saturate(1.4)',
@@ -143,6 +153,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   cancelAnimationFrame(scrambleFrame)
+  resolveScramble?.()
   window.clearInterval(countdownTimer)
   window.clearTimeout(glitchTimer)
   window.clearTimeout(taglineTimer)
