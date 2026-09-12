@@ -33,7 +33,7 @@ jobs:
       - name: Build site
         run: npm run build
         env:
-          ASTRO_SITE: https://atkytp.danielsundholm.com
+          ASTRO_SITE: https://atk-ytp.org
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
