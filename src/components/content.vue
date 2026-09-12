@@ -147,7 +147,8 @@ const linkGroups = [
 .event-content {
   position: relative;
   z-index: 2;
-  width: min(100% - 32px, 900px);
+  width: min(calc(100% - 32px), 900px);
+  min-width: 0;
   margin: 0 auto;
   padding: 48px 0 96px;
   display: grid;
@@ -156,6 +157,9 @@ const linkGroups = [
 
 .content-panel {
   position: relative;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
   padding: clamp(24px, 5vw, 48px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: var(--darkblue);
@@ -370,7 +374,7 @@ h2::after {
 
 @media (max-width: 560px) {
   .event-content {
-    width: min(100% - 20px, 900px);
+    width: calc(100% - 20px);
     padding-top: 32px;
   }
 
