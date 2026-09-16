@@ -39,14 +39,26 @@ const phrases = [
   'Kunnes kerran kuihtuu ruusu rinnassain',
   'Ajamassa skuuttei aurajokeen',
   'Onko setti?',
-  'PGP pilligate',
   'AATUillaanhan taas yhdessä <3',
   'Liikuntavastaavan vika',
   'Piltit sekoo',
   'Paskapostatkaa @asteriski jodelissa',
   'Ratikka tulee - tule sinäkin!',
   'Monelt Petri alottaa',
-  'Varför Paris vi har ju Åbo'
+  'Varför Paris vi har ju Åbo',
+  'Pirates of Holiday Club Caribia',
+  'Posankan perse on tukittu (haaste)',
+  'Agoran saunaa etsimässä',
+  'Bongaa kolmoskopin wessa deeku',
+  'Pist siit sit viis piispist',
+  'Kakolan paahtimoon voi vahingossa mennä panimon kautta',
+  'Mmmm Spartaa Lygasissa',
+  'Kupit eteen - Kupittaa!',
+  'Unohdettiin MM-kyykäst teekkari Auran ABC:lle (sori siitä)',
+  'Jätte kiva',
+  'Varjo YTR lähtee Satamast',
+  'Kellumiskisa Despacito vs Esposito',
+  'Chat is this real',
 ]
 const longestPhrase = phrases.reduce((longest, phrase) => phrase.length > longest.length ? phrase : longest, '')
 let countdownTimer = 0
@@ -114,19 +126,16 @@ const scramble = (next) => {
 onMounted(() => {
   updateCountdown()
   countdownTimer = window.setInterval(updateCountdown, 1000)
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  const isConstrainedDevice = navigator.maxTouchPoints > 0 || navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4
-  if (!reduceMotion) {
-    const nextPhrase = async () => {
-      const availablePhrases = phrases.filter((phrase) => phrase !== tagline.value)
-      const next = availablePhrases[Math.floor(Math.random() * availablePhrases.length)]
-      await scramble(next)
-      taglineTimer = window.setTimeout(nextPhrase, taglineReadTime)
-    }
-    nextPhrase()
+  const isSlowDevice = navigator.maxTouchPoints > 0 || navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4
+  const nextPhrase = async () => {
+    const availablePhrases = phrases.filter((phrase) => phrase !== tagline.value)
+    const next = availablePhrases[Math.floor(Math.random() * availablePhrases.length)]
+    await scramble(next)
+    taglineTimer = window.setTimeout(nextPhrase, taglineReadTime)
   }
+  nextPhrase()
   const glitch = () => {
-    if (!reduceMotion && !isConstrainedDevice) {
+    if (!isSlowDevice) {
       titleGlitch.value = true
       countdownStyle.value = {
         filter: 'contrast(1.3) saturate(1.4)',
@@ -382,11 +391,4 @@ onBeforeUnmount(() => {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .reel.spin,
-  .logo-wrap.glitching .logo-g1,
-  .logo-wrap.glitching .logo-g2 {
-    animation: none !important;
-  }
-}
 </style>

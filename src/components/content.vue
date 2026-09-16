@@ -394,9 +394,4 @@ h2::after {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  h2 {
-    animation: none;
-  }
-}
 </style>
