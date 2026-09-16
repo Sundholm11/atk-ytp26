@@ -25,7 +25,6 @@ const startVhs = (isSlowDevice) => {
   let height = 0
   let noiseFrame = 0
   const noiseFrames = []
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const bands = [
     { y: Math.random(), speed: 0.0009, height: 0.03, tint: [255, 255, 255] },
     { y: Math.random(), speed: 0.0006, height: 0.015, tint: [33, 230, 255] },
@@ -74,7 +73,7 @@ const startVhs = (isSlowDevice) => {
     bands.forEach((band) => {
       bufferContext.fillStyle = `rgba(${band.tint.join(',')},${0.06 + Math.random() * 0.05})`
       bufferContext.fillRect(0, band.y * height, width, band.height * height)
-      if (!reduceMotion) band.y = band.y > 1.2 ? -0.2 : band.y + band.speed
+      band.y = band.y > 1.2 ? -0.2 : band.y + band.speed
     })
     context.clearRect(0, 0, canvas.value.width, canvas.value.height)
     context.drawImage(buffer, 0, 0, width, height, 0, 0, canvas.value.width, canvas.value.height)
@@ -84,13 +83,6 @@ const startVhs = (isSlowDevice) => {
 }
 
 onMounted(() => {
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (reduceMotion) {
-    if (bgWrap.value) bgWrap.value.style.filter = 'none'
-    if (turb.value) turb.value.querySelector('animate')?.setAttribute('repeatCount', '0')
-    return
-  }
-
   const isSlowDevice =
     navigator.maxTouchPoints > 0 ||
     navigator.hardwareConcurrency <= 4 ||
