@@ -21,15 +21,20 @@ const schedule = [
         items: [
           { time: '08:00', title: 'Majoitus auki', location: 'Rieskalähteen koulu, Jöllintie 3' },
           { time: '10:00', title: 'Majoitus sulkeutuu' },
-          { time: '10:00', title: 'Luennot alkaa', location: 'Yliopistonmäki, Natura IX' },
+          { time: '10:00', title: 'Järjestäjän tervehdys', location: 'Yliopistonmäki, Natura IX' },
+          { time: '10:15', title: 'TiTOL & TEK' },
+          { time: '11:00', title: 'Visma' },
+          { time: '12:00', title: 'Kongsberg' },
+          { time: '13:00', title: 'Sisusemi' },
           { time: '13:00', title: 'TiTOl liittokokous', location: 'Täl puol jokke' },
+          { time: '14:00', title: 'TBA' },
         ],
       },
       {
         items: [
-          { time: '15:00', title: 'Rastikierros info', location: 'Yliopistonmäki, Natura IX' },
+          { time: '15:00', title: 'Rastikierros info', location: 'Natura IX' },
           { time: '15:30', title: 'Rastikierros täl puol jokke' },
-          { time: '20:00', title: 'Vätköt', location: 'Akatemiatalo, Rothoviuksenkatu 2' },
+          { time: '18:00', title: 'Vätköt', location: 'Akatemiatalo, Rothoviuksenkatu 2' },
           { time: '21:00', title: 'Majoitus auki' },
           { time: '22:00', title: 'Jatkot *Salainen artisti*', location: 'Saaristobaari, Aurakatu 14' },
         ],
@@ -44,15 +49,19 @@ const schedule = [
         items: [
           { time: '08:00', title: 'Aamusauna', location: 'TYY:n sauna, Rehtorinpellonkatu 4' },
           { time: '10:00', title: 'Majoitus sulkeutuu' },
-          { time: '11:00', title: 'Luennot alkaa', location: 'Yliopistonmäki, Natura IX' },
+          { time: '11:00', title: 'Revvity', location: 'Natura IX' },
+          { time: '12:00', title: 'Marshall AI' },
+          { time: '13:00', title: 'Lounastauko' },
+          { time: '14:00', title: 'Juha-Matti Santala' },
+          { time: '15:00', title: 'Sanoma Media' },
         ],
       },
       {
         items: [
-          { time: '16:00', title: 'ATK-YTG Laji 1', location: 'Educariumin takakenttä' },
-          { time: '18:00', title: 'Vätköt', location: 'Akatemiatalo, Rothoviuksenkatu 2' },
-          { time: '18:00', title: 'ATK-YTG Laji 2' },
-          { time: '19:00', title: 'ATK-YTG Laji 3: Lemminkäisenkierros' },
+          { time: '16:30', title: 'ATK-YTG Laji 1', location: 'Educariumin takakenttä' },
+          { time: '18:00', title: 'Vätköt', location: 'Akatemiatalo' },
+          { time: '18:00', title: 'ATK-YTG Laji 2', location: 'Akatemiatalo' },
+          { time: '19:00', title: 'ATK-YTG Laji 3: Lemminkäisenkierros', location: 'Akatemiatalo' },
           { time: '21:00', title: 'Majoitus auki' },
           { time: '22:00', title: '90s-bileet ft. Digit ry & Delta ry', location: 'Night Club Vegas, Eerikinkatu 19' },
         ],
@@ -77,35 +86,16 @@ const schedule = [
   },
 ]
 
-const linkGroups = [
-    {
-    title: 'Luentosalin läheiset opiskelijaravintolat',
-    links: [
-      { label: 'Aurum', href: 'https://www.karkafeerna.fi/fi/lounas/viikonlista?restaurant=&id=8&year=2026&week=42' },
-      { label: 'Assarin Ullakko & Brygge', href: 'https://www.unica.fi/ravintolat/yliopiston-kampus/assarin-ullakko/' },
-      { label: 'Galilei', href: 'https://www.unica.fi/ravintolat/yliopiston-kampus/galilei/' },
-      { label: 'Monttu', href: 'https://www.unica.fi/ravintolat/yliopiston-kampus/monttu-ja-mercatori/' },
-    ],
-  },
-  {
-    title: 'Kaikki opiskelijaravintolat ja lounaslistat',
-    links: [
-      { label: 'Unica', href: 'https://www.unica.fi/' },
-      { label: 'Kårkaféerna', href: 'https://www.karkafeerna.fi/fi/lounas/' },
-      { label: 'Juvenes Block', href: 'https://juvenes.fi/block/' },
-    ],
-  },
-  {
-    title: 'Muut',
-    links: [
-      { label: 'Fölin bussiaikataulu: Majo → Natura', href: 'https://reittiopas.foli.fi/reitti/Rieskal%C3%A4hteen%20koulu%2C%20J%C3%B6llintie%203%2C%20Turku%3A%3A60.466428%2C22.258328/Natura%2C%20Vesilinnantie%205%2C%20Turku%3A%3A60.454896%2C22.284817?time=1791039761' },
-      { label: 'ATK-YTP IG', href: 'https://www.instagram.com/atkytp/' },
-      { label: 'Oispa Kievin kanaa', href: 'https://oispa.kievinkanaa.com/' },
-    ],
-  },
-]
-
 const infoGroups = [
+  {
+    title: 'ATK-YTG',
+    text: [
+      'ATK-YTG on ainejärjestöjen välinen kilpailu, jossa järjestöt pääsevät edustustiimien johdolla ottamaan mittaa toisistaan ja selvittämään näiden yhteistoimintapäivien kuninkuuden. Suoritettavia lajeja näistä kisoista löytyy kolme:',
+      '1. laji vaatii pakkasenkestävää sinnikkyyttä sekä voimakasta heittokättä.',
+      '2. laji vaatii tarkkaa silmää sekä vakaata kättä.',
+      '3. laji voikin olla jollekin tuttu jo entuudestaan nimittäin Lemminkäisenkierros. Kyseessä on Asteriskin legendaarinen juomalautapeli, joka sisältää erittäin runsaasti alkoholia muiden haasteiden ohella, ja on tarkoitettu vain niille, jotka tuntevat olevansa valmiita koettelemukseen.',
+    ],
+  },
   {
     title: 'Majoitus',
     text: [
@@ -136,6 +126,34 @@ const infoGroups = [
       '8. Jos kaipaat apua tai tukea, älä epäröi pyytää sitä.',
       '9. Rakenna ja ylläpidä yhteisöä, jossa sinulla ja muilla on hyvä olla omana itsenään.',
       'Lisätietoa yhdenvertaisuudesta Asteriskin sivuilta.',
+    ],
+  },
+]
+
+const linkGroups = [
+    {
+    title: 'Luentosalin läheiset opiskelijaravintolat',
+    links: [
+      { label: 'Aurum', href: 'https://www.karkafeerna.fi/fi/lounas/viikonlista?restaurant=&id=8&year=2026&week=42' },
+      { label: 'Assarin Ullakko & Brygge', href: 'https://www.unica.fi/ravintolat/yliopiston-kampus/assarin-ullakko/' },
+      { label: 'Galilei', href: 'https://www.unica.fi/ravintolat/yliopiston-kampus/galilei/' },
+      { label: 'Monttu', href: 'https://www.unica.fi/ravintolat/yliopiston-kampus/monttu-ja-mercatori/' },
+    ],
+  },
+  {
+    title: 'Kaikki opiskelijaravintolat ja lounaslistat',
+    links: [
+      { label: 'Unica', href: 'https://www.unica.fi/' },
+      { label: 'Kårkaféerna', href: 'https://www.karkafeerna.fi/fi/lounas/' },
+      { label: 'Juvenes Block', href: 'https://juvenes.fi/block/' },
+    ],
+  },
+  {
+    title: 'Muut',
+    links: [
+      { label: 'Fölin bussiaikataulu: Majo → Natura', href: 'https://reittiopas.foli.fi/reitti/Rieskal%C3%A4hteen%20koulu%2C%20J%C3%B6llintie%203%2C%20Turku%3A%3A60.466428%2C22.258328/Natura%2C%20Vesilinnantie%205%2C%20Turku%3A%3A60.454896%2C22.284817?time=1791039761' },
+      { label: 'ATK-YTP IG', href: 'https://www.instagram.com/atkytp/' },
+      { label: 'Oispa Kievin kanaa', href: 'https://oispa.kievinkanaa.com/' },
     ],
   },
 ]
@@ -291,7 +309,7 @@ const titolUrl = 'https://titol.fi/'
     <section class="content-panel map-panel" aria-labelledby="map-title">
       <h2 id="map-title">Kartta</h2>
       <div class="map-placeholder" aria-label="Kartta lisätään myöhemmin">
-        <span>Ei samperi eiks Turkuu oo kartotettu viel, no venaas meitsi hoitaa</span>
+        <span style="padding: 25px">Ei samperi eiks Turkuu oo kartotettu viel, no venaas meitsi hoitaa</span>
         <!--
         <iframe width="425" height="350" src="https://www.openstreetmap.org/export/embed?bbox=21.621093750000004%2C60.20809856445641%2C23.20724487304688%2C60.6317855349207&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/#map=11/60.4206/22.4142">Näytä isommalla kartalla</a></small>
         {/*<iframe src="https://www.google.com/maps/d/embed?mid=1bTEXTaFykf9Xgu3riXarONoMUR8V-SU&ehbc=2E312F&noprof=1" width="100%" height="480" style="margin-top: -60px"></iframe>}
