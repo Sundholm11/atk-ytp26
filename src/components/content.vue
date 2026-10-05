@@ -24,7 +24,7 @@ const schedule = [
           { time: '10:00', title: 'Järjestäjän tervehdys', location: 'Yliopistonmäki, Natura IX' },
           { time: '10:15', title: 'TiTOL & TEK' },
           { time: '11:00', title: 'Visma' },
-          { time: '12:00', title: 'Kongsberg' },
+          { time: '12:00', title: 'Kongsberg Maritime' },
           { time: '13:00', title: 'Sisusemi' },
           { time: '13:00', title: 'TiTOl liittokokous', location: 'Täl puol jokke' },
           { time: '14:00', title: 'TBA' },
@@ -49,7 +49,7 @@ const schedule = [
         items: [
           { time: '08:00', title: 'Aamusauna', location: 'TYY:n sauna, Rehtorinpellonkatu 4' },
           { time: '10:00', title: 'Majoitus sulkeutuu' },
-          { time: '11:00', title: 'Revvity', location: 'Natura IX' },
+          { time: '11:00', title: 'Vera Hiltunen', location: 'Natura IX' },
           { time: '12:00', title: 'Marshall AI' },
           { time: '13:00', title: 'Lounastauko' },
           { time: '14:00', title: 'Juha-Matti Santala' },
