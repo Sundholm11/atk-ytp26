@@ -2,6 +2,7 @@
 import kongsbergMaritimeLogo from '@logos/kongsberg_maritime.png'
 import vismaLogo from '@logos/visma_white.png'
 import marshallAiLogo from '@logos/marshallai_white.svg'
+import tekLogo from '@logos/tek_white.png'
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import marshallAiLogo from '@logos/marshallai_white.svg'
       <img :src="kongsbergMaritimeLogo.src" alt="Kongsberg Maritime" />
       <img :src="vismaLogo.src" alt="Visma" />
       <img :src="marshallAiLogo.src" alt="Marshall AI" />
+      <img :src="tekLogo.src" alt="TEK" />
     </div>
   </section>
 </template>
@@ -62,7 +64,7 @@ import marshallAiLogo from '@logos/marshallai_white.svg'
   object-fit: contain;
 }
 
-.sponsor-strip__logos img:last-child {
+.sponsor-strip__logos img:last-child:nth-child(odd) {
   grid-column: 1 / -1;
   justify-self: center;
   width: 100%;
@@ -85,7 +87,7 @@ import marshallAiLogo from '@logos/marshallai_white.svg'
     height: 88px;
   }
 
-  .sponsor-strip__logos img:last-child {
+  .sponsor-strip__logos img:last-child:nth-child(odd) {
     grid-column: auto;
     width: min(70vw, 240px);
     max-width: none;
