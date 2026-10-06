@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import Sponsors from "@/components/sponsors.vue"
 
 const schedule = [
   {
@@ -265,6 +266,8 @@ const titolUrl = 'https://titol.fi/'
       </div>
     </section>
 
+    <Sponsors />
+
     <section class="content-panel" aria-labelledby="location-title">
       <h2 id="location-title">Info</h2>
       <div class="text-list">
@@ -331,7 +334,7 @@ const titolUrl = 'https://titol.fi/'
   </main>
 </template>
 
-<style scoped>
+<style>
 .event-content {
   position: relative;
   z-index: 2;
@@ -375,7 +378,7 @@ h2 {
   margin: 0 0 24px;
   color: var(--cold-white);
   font-family: var(--font-vcr), monospace;
-  font-size: clamp(1.5rem, 5vw, 3rem);
+  font-size: clamp(1.2rem, 5vw, 3rem);
   font-weight: 400;
   line-height: 1;
   letter-spacing: 0;

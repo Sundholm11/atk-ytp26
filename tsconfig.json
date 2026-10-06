@@ -11,6 +11,7 @@
       "@fonts/*": ["./src/assets/fonts/*"],
       "@images/*": ["./src/assets/images/*"],
       "@layouts/*": ["./src/layouts/*"],
+      "@logos/*": ["./src/assets/logos/*"],
       "@pages/*": ["./src/pages/*"],
       "@styles/*": ["./src/styles/*"],
     },
