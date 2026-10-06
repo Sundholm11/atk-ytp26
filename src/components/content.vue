@@ -27,14 +27,14 @@ const schedule = [
           { time: '11:00', title: 'Visma' },
           { time: '12:00', title: 'Kongsberg Maritime' },
           { time: '13:00', title: 'Sisusemi' },
-          { time: '13:00', title: 'TiTOl liittokokous', location: 'Täl puol jokke' },
+          { time: '13:00', title: 'TiTOl liittokokous', location: 'Täl pual jokke' },
           { time: '14:00', title: 'TBA' },
         ],
       },
       {
         items: [
           { time: '15:00', title: 'Rastikierros info', location: 'Natura IX' },
-          { time: '15:30', title: 'Rastikierros täl puol jokke' },
+          { time: '15:30', title: 'Rastikierros täl pual jokke' },
           { time: '18:00', title: 'Vätköt', location: 'Akatemiatalo, Rothoviuksenkatu 2' },
           { time: '21:00', title: 'Majoitus auki' },
           { time: '22:00', title: 'Jatkot *Salainen artisti*', location: 'Saaristobaari, Aurakatu 14' },
@@ -173,9 +173,9 @@ const faqGroups = [
     ],
   },
   {
-    title: 'Kummal puol jokkee?',
+    title: 'Kummal pual jokkee?',
     text: [
-      'Molemmil puolil jokkee pääsee temmeltää. Joessa temmeltäminen kielletty. Joessa pyöräily kielletty. Joessa skuuttailu kielletty.',
+      'Molemmi pual jokkee pääsee temmeltää. Joessa temmeltäminen kielletty. Joessa pyöräily kielletty. Joessa skuuttailu kielletty.',
     ],
   },
   {

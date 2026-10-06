@@ -26,7 +26,7 @@ const phrases = [
   'Avataan gogous ajassa',
   'Funikulaari toiminnassa',
   'Funikulaari epäkunnossa',
-  'Täl puol vai tois puol jokke',
+  'Täl pual vai tois pual jokke',
   'Iha ok juttu mut ootko kattonu YTP sarjasta jakson miljoonan mäen Turku',
   'Miten voi suorittaa neljännes triathlonin jos siinä on vaan kolme lajia',
   'Hyvää pönkeliwappua',
