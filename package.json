@@ -13,7 +13,9 @@
   },
   "dependencies": {
     "@astrojs/vue": "^7.0.2",
+    "@vue-leaflet/vue-leaflet": "^0.10.1",
     "astro": "^7.2.4",
+    "leaflet": "^1.9.4",
     "vue": "^3.5.41"
   },
   "devDependencies": {

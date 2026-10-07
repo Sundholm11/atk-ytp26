@@ -12,6 +12,7 @@
       "@images/*": ["./src/assets/images/*"],
       "@layouts/*": ["./src/layouts/*"],
       "@logos/*": ["./src/assets/logos/*"],
+      "@markers/*": ["./src/assets/markers/*"],
       "@pages/*": ["./src/pages/*"],
       "@styles/*": ["./src/styles/*"],
     },
