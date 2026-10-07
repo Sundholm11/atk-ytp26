@@ -1,8 +1,10 @@
 <script setup>
+import elisaLogo from '@logos/elisa_white.png'
 import kongsbergMaritimeLogo from '@logos/kongsberg_maritime.png'
-import vismaLogo from '@logos/visma_white.png'
 import marshallAiLogo from '@logos/marshallai_white.svg'
+import sanomaLogo from '@logos/sanoma_white.png'
 import tekLogo from '@logos/tek_white.png'
+import vismaLogo from '@logos/visma_white.png'
 </script>
 
 <template>
@@ -13,6 +15,8 @@ import tekLogo from '@logos/tek_white.png'
       <img :src="vismaLogo.src" alt="Visma" />
       <img :src="marshallAiLogo.src" alt="Marshall AI" />
       <img :src="tekLogo.src" alt="TEK" />
+      <img :src="elisaLogo.src" alt="Elisa" />
+      <img :src="sanomaLogo.src" alt="Sanoma" />
     </div>
   </section>
 </template>

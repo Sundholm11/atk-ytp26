@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import Sponsors from "@/components/sponsors.vue"
+import Sponsors from "@components/sponsors.vue"
+import Map from "@components/map.vue"
 
 const schedule = [
   {
@@ -24,7 +25,7 @@ const schedule = [
           { time: '10:00', title: 'Majoitus sulkeutuu' },
           { time: '10:00', title: 'Järjestäjän tervehdys', location: 'Yliopistonmäki, Natura IX' },
           { time: '10:15', title: 'TiTOL & TEK' },
-          { time: '11:00', title: 'Visma' },
+          { time: '11:00', title: 'Visma - Tekoäly, arkkitehtuuri ja tietotyö: Mitä tulevaisuuden asiantuntijan pitää ymmärtää' },
           { time: '12:00', title: 'Kongsberg Maritime' },
           { time: '13:00', title: 'Sisusemi' },
           { time: '13:00', title: 'TiTOl liittokokous', location: 'Täl pual jokke' },
@@ -53,7 +54,7 @@ const schedule = [
           { time: '11:00', title: 'Revvity', location: 'Natura IX' },
           { time: '12:00', title: 'Marshall AI' },
           { time: '13:00', title: 'Lounastauko' },
-          { time: '14:00', title: 'Juha-Matti Santala' },
+          { time: '14:00', title: 'Juha-Matti Santala - Opiskelija, haluatko menestyä?' },
           { time: '15:00', title: 'Sanoma Media' },
         ],
       },
@@ -311,13 +312,7 @@ const titolUrl = 'https://titol.fi/'
 
     <section class="content-panel map-panel" aria-labelledby="map-title">
       <h2 id="map-title">Kartta</h2>
-      <div class="map-placeholder" aria-label="Kartta lisätään myöhemmin">
-        <span style="padding: 25px">Ei samperi eiks Turkuu oo kartotettu viel, no venaas meitsi hoitaa</span>
-        <!--
-        <iframe width="425" height="350" src="https://www.openstreetmap.org/export/embed?bbox=21.621093750000004%2C60.20809856445641%2C23.20724487304688%2C60.6317855349207&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/#map=11/60.4206/22.4142">Näytä isommalla kartalla</a></small>
-        {/*<iframe src="https://www.google.com/maps/d/embed?mid=1bTEXTaFykf9Xgu3riXarONoMUR8V-SU&ehbc=2E312F&noprof=1" width="100%" height="480" style="margin-top: -60px"></iframe>}
-        -->
-      </div>
+      <Map />
     </section>
 
     <section class="content-panel" aria-labelledby="faq-title">
@@ -673,20 +668,6 @@ h2::after {
 .link-list a:hover,
 .link-list a:focus-visible {
   color: var(--cyan);
-}
-
-.map-placeholder {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  min-height: 220px;
-  place-items: center;
-  border: 1px dashed rgba(33, 230, 255, 0.5);
-  background: linear-gradient(135deg, rgba(33, 230, 255, 0.08), rgba(255, 47, 146, 0.08));
-  color: var(--cyan);
-  font-family: var(--font-vcr), monospace;
-  font-size: 0.8rem;
-  letter-spacing: 0.16em;
 }
 
 @media (max-width: 560px) {
