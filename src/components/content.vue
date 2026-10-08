@@ -28,8 +28,8 @@ const schedule = [
           { time: '11:00', title: 'Visma - Tekoäly, arkkitehtuuri ja tietotyö: Mitä tulevaisuuden asiantuntijan pitää ymmärtää' },
           { time: '12:00', title: 'Kongsberg Maritime' },
           { time: '13:00', title: 'Sisusemi' },
-          { time: '13:00', title: 'TiTOl liittokokous', location: 'Täl pual jokke' },
-          { time: '14:00', title: 'TBA' },
+          { time: '13:00', title: 'TiTOl liittokokous', location: 'Turku -sali, Rehtorinpellonkatu 4A, 2 krs' },
+          { time: '14:00', title: 'Innofactor' },
         ],
       },
       {
