@@ -23,13 +23,14 @@ const schedule = [
         items: [
           { time: '08:00', title: 'Majoitus auki', location: 'Rieskalähteen koulu, Jöllintie 3' },
           { time: '10:00', title: 'Majoitus sulkeutuu' },
-          { time: '10:00', title: 'Järjestäjän tervehdys', location: 'Yliopistonmäki, Natura IX' },
-          { time: '10:15', title: 'TiTOL & TEK' },
+          { time: '10:00', title: 'ATK-YTP 2026 - Avaus ja käytännön asiat', location: 'Yliopistonmäki, Natura IX' },
+          { time: '10:30', title: 'TEKin tervehdys' },
           { time: '11:00', title: 'Visma - Tekoäly, arkkitehtuuri ja tietotyö: Mitä tulevaisuuden asiantuntijan pitää ymmärtää' },
-          { time: '12:00', title: 'Kongsberg Maritime' },
+          { time: '12:00', title: 'Kongsberg Maritime - Tietoverkot ja kyberturva merenkulkualalla' },
           { time: '13:00', title: 'Sisusemi' },
-          { time: '13:00', title: 'TiTOl liittokokous', location: 'Turku -sali, Rehtorinpellonkatu 4A, 2 krs' },
-          { time: '14:00', title: 'Innofactor' },
+          { time: '13:00', title: 'TiTOL liittokokous', location: 'Turku -sali, Rehtorinpellonkatu 4A, 2 krs' },
+          { time: '13:45', title: 'Innofactor - Mikkis-konsultin kerhotalo' },
+          { time: '14:30', title: 'Niki Niittymäki - Git gud: Hyvää Git hygieniaa' },
         ],
       },
       {
@@ -51,9 +52,9 @@ const schedule = [
         items: [
           { time: '08:00', title: 'Aamusauna', location: 'TYY:n sauna, Rehtorinpellonkatu 4' },
           { time: '11:00', title: 'Majoitus sulkeutuu' },
-          { time: '11:00', title: 'Revvity', location: 'Natura IX' },
+          { time: '11:00', title: 'Revvity - Terveydenhuollon laitteiden ohjelmistokehitys', location: 'Natura IX' },
           { time: '12:00', title: 'Marshall AI' },
-          { time: '13:00', title: 'Lounastauko' },
+          { time: '13:00', title: 'Kvanttori - Miten rakennat ohjelmistoalan liiketoimintaa opiskelijana' },
           { time: '14:00', title: 'Juha-Matti Santala - Opiskelija, haluatko menestyä?' },
           { time: '15:00', title: 'Sanoma Media' },
         ],
@@ -107,6 +108,20 @@ const infoGroups = [
     ],
   },
   {
+    title: 'Mitä mukaan?',
+    text: [
+      'Paljoa ei vaadita mut nää olis ainaki suositeltavat:',
+      '- Elintärkeät: lompakko, avaimet, puhelin',
+      '- Haalarit ja haalarimerkkejä vaihdettavaksi uusien ja vanhojen kamujen kanssa',
+      '- Kelinmukainen varustus',
+      '- Majoitusvälineet: makuualusta ja/tai -pussi, hygieniatarvikkeet, laturi',
+      '- Pyyhe ja uikkarit saunomista varten!',
+      '- Hyvää YTP-mieltä!',
+      '- Suomi-Turku -sanakirja',
+
+    ],
+  },
+  {
     title: 'Ruokailu',
     text: [
       'Opiskelijaruokailun puolesta Turku on unelmapaikka, sillä korkeakoulut ovat keskittyneitä samalle alueelle ja sen ansiosta myös opiskelijaravintoloita on tarjolla parisenkymmentä. Luentosalia lähimpää löytyvät Galilei, Aurum, Assari, Monttu ja Astra. Opiskelijaravintoloiden aukioloajat ja lounaslistat löydät alempaa linkkilistasta. Pisimpään auki on Assari, jossa opiskelijalounasta voi nauttia aina klo 20 asti. Keskustassa opiskelijaruokaa tarjoaa Kulma klo 18 asti.',
@@ -153,7 +168,10 @@ const linkGroups = [
   {
     title: 'Muut',
     links: [
-      { label: 'Fölin bussiaikataulu: Majo → Natura', href: 'https://reittiopas.foli.fi/reitti/Rieskal%C3%A4hteen%20koulu%2C%20J%C3%B6llintie%203%2C%20Turku%3A%3A60.466428%2C22.258328/Natura%2C%20Vesilinnantie%205%2C%20Turku%3A%3A60.454896%2C22.284817?time=1791039761' },
+      {
+        label: 'Fölin bussiaikataulu: Majo → Natura',
+        href: 'https://reittiopas.foli.fi/reitti/Rieskal%C3%A4hteen%20koulu%2C%20J%C3%B6llintie%203%2C%20Turku%3A%3A60.466428%2C22.258328/Natura%2C%20Vesilinnantie%205%2C%20Turku%3A%3A60.454896%2C22.284817'
+      },
       { label: 'ATK-YTP IG', href: 'https://www.instagram.com/atkytp/' },
       { label: 'Oispa Kievin kanaa', href: 'https://oispa.kievinkanaa.com/' },
     ],
@@ -231,7 +249,7 @@ const titolUrl = 'https://titol.fi/'
           Luvassa on pari päivää luentoja, iltaohjelmaa ja hulluttelua seitsemän yliopistokaupungin voimin.
         </p>
         <p>
-          Yhteistoimintapäivät startataan keskiviikkona 14.10. klo 10 Yliopistonmäellä Natura-rakennuksen salissa IX.
+          Yhteistoimintapäivät startataan keskiviikkona 14.10. klo 10 seminaareilla Yliopistonmäellä Natura-rakennuksen salissa IX.
           Seminaarien jälkeen osallistujat pääsevät suuntaamaan perinteiselle rastikierrokselle, jossa tutustutaan Turun yliopiston ympäristöön ja keskustan tuntumaan.
           Myöhemmin illalla vätköillään Akatemiatalolla ja päivä huipentuu YTP-jatkoihin Saaristobaarissa klo 22 alkaen, missä esiintyy salainen jatkoartisti.
         </p>
