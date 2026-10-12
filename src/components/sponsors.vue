@@ -11,12 +11,24 @@ import vismaLogo from '@logos/visma_white.png'
   <section class="content-panel" aria-label="Tapahtuman yhteistyökumppanit">
     <h2>Sponsorit</h2>
     <div class="sponsor-strip__logos">
-      <img :src="kongsbergMaritimeLogo.src" alt="Kongsberg Maritime" />
-      <img :src="vismaLogo.src" alt="Visma" />
-      <img :src="marshallAiLogo.src" alt="Marshall AI" />
-      <img :src="tekLogo.src" alt="TEK" />
-      <img :src="elisaLogo.src" alt="Elisa" />
-      <img :src="sanomaLogo.src" alt="Sanoma" />
+      <a href="https://www.kongsbergmaritime.com/" target="_blank" rel="noopener noreferrer">
+        <img :src="kongsbergMaritimeLogo.src" alt="Kongsberg Maritime" />
+      </a>
+      <a href="https://www.visma.com/" target="_blank" rel="noopener noreferrer">
+        <img :src="vismaLogo.src" alt="Visma" />
+      </a>
+      <a href="https://marshallai.com/" target="_blank" rel="noopener noreferrer">
+        <img :src="marshallAiLogo.src" alt="Marshall AI" />
+      </a>
+      <a href="https://www.tek.fi/" target="_blank" rel="noopener noreferrer">
+        <img :src="tekLogo.src" alt="TEK" />
+      </a>
+      <a href="https://elisa.fi/" target="_blank" rel="noopener noreferrer">
+        <img :src="elisaLogo.src" alt="Elisa" />
+      </a>
+      <a href="https://www.sanoma.fi/" target="_blank" rel="noopener noreferrer">
+        <img :src="sanomaLogo.src" alt="Sanoma" />
+      </a>
     </div>
   </section>
 </template>
@@ -59,6 +71,10 @@ import vismaLogo from '@logos/visma_white.png'
   gap: clamp(20px, 4vw, 48px);
 }
 
+.sponsor-strip__logos a {
+  display: block;
+}
+
 .sponsor-strip__logos img {
   display: block;
   width: 100%;
@@ -68,7 +84,7 @@ import vismaLogo from '@logos/visma_white.png'
   object-fit: contain;
 }
 
-.sponsor-strip__logos img:last-child:nth-child(odd) {
+.sponsor-strip__logos a:last-child:nth-child(odd) {
   grid-column: 1 / -1;
   justify-self: center;
   width: 100%;
@@ -85,13 +101,17 @@ import vismaLogo from '@logos/visma_white.png'
     gap: 24px;
   }
 
+  .sponsor-strip__logos a {
+    display: flex;
+    justify-content: center;
+  }
+
   .sponsor-strip__logos img {
     width: min(70vw, 240px);
-    justify-self: center;
     height: 88px;
   }
 
-  .sponsor-strip__logos img:last-child:nth-child(odd) {
+  .sponsor-strip__logos a:last-child:nth-child(odd) {
     grid-column: auto;
     width: min(70vw, 240px);
     max-width: none;
