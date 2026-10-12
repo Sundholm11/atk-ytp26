@@ -10,6 +10,8 @@ const taglineReadTime = 3000
 const taglineScrambleDuration = 900
 const countdownStyle = ref({})
 const countdown = ref({ days: '00', hours: '00', minutes: '00', seconds: '00' })
+const countdownComplete = ref(false)
+const countdownCompleteMarkup = ref('')
 const units = [
   { key: 'days', label: 'päivää' },
   { key: 'hours', label: 'tuntia' },
@@ -65,12 +67,19 @@ let countdownTimer = 0
 let glitchTimer = 0
 let taglineTimer = 0
 let scrambleFrame = 0
+let countdownScrambleFrame = 0
 let resolveScramble = null
 
 const pad = (value) => String(value).padStart(2, '0')
 
 const updateCountdown = () => {
-  const difference = Math.max(0, new Date('2026-10-14T09:00:00+03:00').getTime() - Date.now())
+  const difference = Math.max(0, new Date('2026-10-14T10:00:00+03:00').getTime() - Date.now())
+
+  if (difference === 0 && !countdownComplete.value) {
+    countdownComplete.value = true
+    scrambleCountdown()
+    return
+  }
 
   countdown.value = {
     days: pad(Math.floor(difference / 86400000)),
@@ -79,6 +88,29 @@ const updateCountdown = () => {
     seconds: pad(Math.floor((difference % 60000) / 1000)),
   }
 
+}
+
+const scrambleCountdown = () => {
+  const next = '***** KÄYNNISSÄ *****'
+  const chars = '!<>-_\\/[]{}—=+*^?#ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ'
+  const startTime = performance.now()
+  const duration = taglineScrambleDuration
+  const animate = (timestamp) => {
+    const progress = Math.min(1, (timestamp - startTime) / duration)
+    const revealed = Math.floor(progress * next.length)
+    let output = ''
+
+    for (let index = 0; index < next.length; index += 1) {
+      if (index < revealed) output += next[index]
+      else output += `<span class="dud">${chars[Math.floor(Math.random() * chars.length)]}</span>`
+    }
+
+    countdownCompleteMarkup.value = output
+    if (progress < 1) countdownScrambleFrame = requestAnimationFrame(animate)
+    else countdownCompleteMarkup.value = next
+  }
+
+  countdownScrambleFrame = requestAnimationFrame(animate)
 }
 
 const scramble = (next) => {
@@ -154,6 +186,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   cancelAnimationFrame(scrambleFrame)
+  cancelAnimationFrame(countdownScrambleFrame)
   resolveScramble?.()
   window.clearInterval(countdownTimer)
   window.clearTimeout(glitchTimer)
@@ -180,10 +213,20 @@ onBeforeUnmount(() => {
       </div>
 
       <div class="countdown">
-        <div v-for="unit in units" :key="unit.key" class="unit">
-          <div class="num">{{ countdown[unit.key] }}</div>
-          <div class="lbl">{{ unit.label }}</div>
-        </div>
+        <div
+          v-if="countdownComplete"
+          class="countdown-active"
+          :class="{ glitching: titleGlitch }"
+          :style="countdownStyle"
+          data-text="***** KÄYNNISSÄ *****"
+          v-html="countdownCompleteMarkup"
+        />
+        <template v-else>
+          <div v-for="unit in units" :key="unit.key" class="unit">
+            <div class="num">{{ countdown[unit.key] }}</div>
+            <div class="lbl">{{ unit.label }}</div>
+          </div>
+        </template>
       </div>
 
       <div class="date-location">
@@ -313,7 +356,52 @@ onBeforeUnmount(() => {
 .countdown {
   display: flex;
   width: 100%;
+  align-items: center;
+  justify-content: center;
   gap: clamp(4px, 2.2vw, 22px);
+}
+
+.countdown-active {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  color: #fff;
+  font-family: var(--font-vcr), monospace;
+  font-size: clamp(1rem, 5vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-align: center;
+  white-space: nowrap;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+}
+
+.countdown-active::before,
+.countdown-active::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  content: attr(data-text);
+}
+
+.countdown-active.glitching::before,
+.countdown-active.glitching::after {
+  opacity: 0.8;
+}
+
+.countdown-active.glitching::before {
+  color: #ff2f92;
+  animation: glitch-1 180ms steps(3, end) infinite;
+}
+
+.countdown-active.glitching::after {
+  color: var(--cyan);
+  animation: glitch-2 140ms steps(3, end) infinite;
+}
+
+.countdown-active :deep(.dud) {
+  color: var(--cyan);
+  opacity: 0.6;
 }
 
 .unit {
