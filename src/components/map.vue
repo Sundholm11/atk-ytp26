@@ -110,8 +110,16 @@ const locations = [
     name: 'Asteriskin Toimisto',
     address: 'Yliopistonmäki, Agora, krs -1',
     coordinates: [60.455703230940976, 22.285807625365642],
-    type: 'Luennot',
+    type: 'Toimisto',
     icon: toimisto,
+  },
+  {
+    id: 'turkusali',
+    name: 'Turku-sali',
+    address: 'Rehtorinpellonkatu 4A, 2 krs',
+    coordinates: [60.45411461492682, 22.28701258789027],
+    type: 'TiTOL liittokokous',
+    icon: luennot,
   },
   {
     id: 'vegas',
@@ -246,7 +254,7 @@ const locations = [
     name: 'Sotto Pizzeria',
     address: 'Hämeenkatu 16',
     coordinates: [60.45054786156494, 22.278774196909033],
-    type: 'Paras hintasuhde pizzaa',
+    type: 'Paras hinta-laatusuhde pizzaa',
     icon: pikaruoka,
   },
   {
