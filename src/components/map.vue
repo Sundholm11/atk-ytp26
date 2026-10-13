@@ -114,14 +114,6 @@ const locations = [
     icon: toimisto,
   },
   {
-    id: 'turkusali',
-    name: 'Turku-sali',
-    address: 'Rehtorinpellonkatu 4A, 2 krs',
-    coordinates: [60.45411461492682, 22.28701258789027],
-    type: 'TiTOL liittokokous',
-    icon: luennot,
-  },
-  {
     id: 'vegas',
     name: 'Night Club Vegas',
     address: 'Eerikinkatu 19',
