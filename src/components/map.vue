@@ -297,6 +297,14 @@ const locations = [
     type: 'Kauppa',
     icon: kauppa,
   },
+  {
+    id: 'pataassa',
+    name: 'Pataässä',
+    address: 'Eerikinkatu 6B',
+    coordinates: [60.451758410011344, 22.270363620154416],
+    type: 'Jatkojen jatkot',
+    icon: pub,
+  },
 ]
 
 const icons = ref({})
