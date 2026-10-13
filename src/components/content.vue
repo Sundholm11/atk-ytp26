@@ -174,6 +174,7 @@ const linkGroups = [
       },
       { label: 'ATK-YTP IG', href: 'https://www.instagram.com/atkytp/' },
       { label: 'Oispa Kievin kanaa', href: 'https://oispa.kievinkanaa.com/' },
+      { label: 'Lamar loukkaa Franklinia Turussa', href: 'https://youtu.be/2hyRZAP8K-s?si=2mR3tnOM1vo0lwyK' },
     ],
   },
 ]
@@ -183,6 +184,30 @@ const faqGroups = [
     title: 'ATK-YTP?',
     text: [
       'Automaattisen tietojenkäsittelyn yhteistoimintapäivät.',
+    ],
+  },
+  {
+    title: 'Saako luentosalissa juoda alkoholia?',
+    text: [
+      'Yliopiston tiloissa alkoholin nauttiminen on kiellettyä, eli yleisissä tiloissa (salin ulkopuolella) tölkit ja pullot pysyy piilossa. Luentosalissa alkoholin käyttöä ei valvota, mutta muistetaan sielläkin laittaa tölkit niille tarkoitettuihin roskiksiin.',
+    ],
+  },
+  {
+    title: 'Saako majoituksessa juoda alkoholia?',
+    text: [
+      'Alkoholin nauttiminen on kiellettyä majoituksessa.',
+    ],
+  },
+  {
+    title: 'Saako ruokalassa juoda alkoholia?',
+    text: [
+      'Alkoholin nauttiminen on kiellettyä kampusalueen ruokaloissa mutta Unica ravintolat tarjoaa mahdollisuuden nauttia kotikaljaa lounaan yhteydessä. Nami maiskis.',
+    ],
+  },
+  {
+    title: 'No missä sitä alkoholia sit saa juoda?',
+    text: [
+      'Esimerkiksi Lemminkäisenkierroksella ja muutoin kun yllä mainituissa tapauksissa.',
     ],
   },
   {
