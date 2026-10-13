@@ -35,7 +35,7 @@ const schedule = [
       },
       {
         items: [
-          { time: '15:00', title: 'Rastikierros info', location: 'Natura IX' },
+          { time: '15:15', title: 'Rastikierros info', location: 'Natura IX' },
           { time: '15:30', title: 'Rastikierros täl pual jokke' },
           { time: '18:00', title: 'Vätköt', location: 'Akatemiatalo, Rothoviuksenkatu 2' },
           { time: '21:00', title: 'Majoitus auki' },
