@@ -39,7 +39,7 @@ const schedule = [
           { time: '15:30', title: 'Rastikierros täl pual jokke' },
           { time: '18:00', title: 'Vätköt', location: 'Akatemiatalo, Rothoviuksenkatu 2' },
           { time: '21:00', title: 'Majoitus auki' },
-          { time: '22:00', title: 'Jatkot *Salainen artisti*', location: 'Saaristobaari, Aurakatu 14' },
+          { time: '22:00', title: 'Jatkot - artistina Samuell', location: 'Saaristobaari, Aurakatu 14' },
         ],
       },
     ],
@@ -56,7 +56,7 @@ const schedule = [
           { time: '12:00', title: 'Marshall AI' },
           { time: '13:00', title: 'Kvanttori - Miten rakennat ohjelmistoalan liiketoimintaa opiskelijana' },
           { time: '14:00', title: 'Juha-Matti Santala - Opiskelija, haluatko menestyä?' },
-          { time: '15:00', title: 'Sanoma Media' },
+          { time: '15:00', title: 'Sanoma Media - Tekoäly, tulevaisuus ja traineepaikat' },
         ],
       },
       {
@@ -276,7 +276,7 @@ const titolUrl = 'https://titol.fi/'
         <p>
           Yhteistoimintapäivät startataan keskiviikkona 14.10. klo 10 seminaareilla Yliopistonmäellä Natura-rakennuksen salissa IX.
           Seminaarien jälkeen osallistujat pääsevät suuntaamaan perinteiselle rastikierrokselle, jossa tutustutaan Turun yliopiston ympäristöön ja keskustan tuntumaan.
-          Myöhemmin illalla vätköillään Akatemiatalolla ja päivä huipentuu YTP-jatkoihin Saaristobaarissa klo 22 alkaen, missä esiintyy salainen jatkoartisti.
+          Myöhemmin illalla vätköillään Akatemiatalolla ja päivä huipentuu YTP-jatkoihin Saaristobaarissa klo 22 alkaen, missä esiintyy Samuell.
         </p>
         <p>
           Torstaina aamuvirkut pääsevät nauttimaan aamusaunan lämmöstä ja tarjoiluista klo 8. Luennot jatkuvat jälleen samassa Naturan IX-salissa klo 11.
