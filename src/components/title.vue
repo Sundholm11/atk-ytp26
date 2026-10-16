@@ -227,8 +227,8 @@ onBeforeUnmount(() => {
           <h2>KIITOS OSALLISTUJILLE</h2>
           <p>
             ATK-YTP 2026 on tullut päätökseensä! YTP oli täynnä mielenkiintoisia luentoja ja railakasta
-            iltaohjelmaa. Suuri kiitos kaikille osallistujille, puhujille, yhteistyökumppaneille sekä tapahtuman
-            järjestelyissä mukana olleille. Nyt on aika suunnata takaisin kotikaupunkeihin keräämään voimia.
+            iltaohjelmaa. Suuri kiitos kaikille osallistujille, puhujille, yhteistyökumppaneille, nakittautuneille sekä tapahtuman
+            järjestelyissä mukana olleille riemullisista yhteistoimintapäivistä. Nyt on aika suunnata takaisin kotikaupunkeihin keräämään voimia.
             Nähdään taas seuraavilla YTP-päivillä!
           </p>
           <p>Kiitos ja kumarrus - Turku kuittaa!</p>
