@@ -3,10 +3,13 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import ytpLogoColdWhite from '@images/ytplogo-pixel-coldwhite.svg?url'
 //import ytpLogoDarkGrey from '@images/ytplogo-darkgrey.svg?url'
 
+const ytpOverThankYou = ref(true)
+const thankYouPhrase = 'Muuttaako se lopulta niitä päiviä, jotka sun kanssa vietin mä kerran Turussa'
+
 const titleGlitch = ref(false)
 const tagline = ref('Never stop the madness')
 const taglineMarkup = ref('Never stop the madness')
-const taglineReadTime = 3000
+const taglineReadTime = 5000
 const taglineScrambleDuration = 900
 const countdownStyle = ref({})
 const countdown = ref({ days: '00', hours: '00', minutes: '00', seconds: '00' })
@@ -159,13 +162,15 @@ onMounted(() => {
   updateCountdown()
   countdownTimer = window.setInterval(updateCountdown, 1000)
   const isSlowDevice = navigator.maxTouchPoints > 0 || navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4
-  const nextPhrase = async () => {
+  const nextPhrase = async (showThankYou = false) => {
     const availablePhrases = phrases.filter((phrase) => phrase !== tagline.value)
-    const next = availablePhrases[Math.floor(Math.random() * availablePhrases.length)]
+    const next = showThankYou
+      ? thankYouPhrase
+      : availablePhrases[Math.floor(Math.random() * availablePhrases.length)]
     await scramble(next)
     taglineTimer = window.setTimeout(nextPhrase, taglineReadTime)
   }
-  nextPhrase()
+  nextPhrase(true)
   const glitch = () => {
     if (!isSlowDevice) {
       titleGlitch.value = true
@@ -214,7 +219,22 @@ onBeforeUnmount(() => {
 
       <div class="countdown">
         <div
-          v-if="countdownComplete"
+          v-if="ytpOverThankYou"
+          class="thank-you"
+          :class="{ glitching: titleGlitch }"
+          :style="countdownStyle"
+        >
+          <h2>KIITOS OSALLISTUJILLE</h2>
+          <p>
+            ATK-YTP 2026 on tullut päätökseensä! YTP oli täynnä mielenkiintoisia luentoja ja railakasta
+            iltaohjelmaa. Suuri kiitos kaikille osallistujille, puhujille, yhteistyökumppaneille sekä tapahtuman
+            järjestelyissä mukana olleille. Nyt on aika suunnata takaisin kotikaupunkeihin keräämään voimia.
+            Nähdään taas seuraavilla YTP-päivillä!
+          </p>
+          <p>Kiitos ja kumarrus - Turku kuittaa!</p>
+        </div>
+        <div
+          v-else-if="countdownComplete"
           class="countdown-active"
           :class="{ glitching: titleGlitch }"
           :style="countdownStyle"
@@ -359,6 +379,59 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   gap: clamp(4px, 2.2vw, 22px);
+}
+
+.thank-you {
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.25);
+}
+
+.thank-you h2 {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin: 0 0 24px;
+  color: var(--cold-white);
+  font-family: var(--font-vcr), monospace;
+  font-size: clamp(1.2rem, 5vw, 3rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  text-transform: uppercase;
+  animation: section-title-glitch 4.5s steps(1, end) infinite;
+}
+
+.thank-you h2::before,
+.thank-you h2::after {
+  content: none;
+}
+
+.thank-you p {
+  max-width: 760px;
+  margin: 18px auto 0;
+  font-family: var(--font-space-mono), monospace;
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  line-height: 1.6;
+}
+
+@keyframes section-title-glitch {
+  0%, 88%, 100% {
+    text-shadow: none;
+    transform: none;
+  }
+
+  89% {
+    text-shadow: 3px 0 var(--cyan), -3px 0 var(--magenta);
+    transform: translateX(-2px);
+  }
+
+  90% {
+    text-shadow: -2px 0 var(--cyan), 2px 0 var(--magenta);
+    transform: translateX(2px);
+  }
 }
 
 .countdown-active {
